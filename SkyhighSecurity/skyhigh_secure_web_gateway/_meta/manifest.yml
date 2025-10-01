@@ -1,7 +1,7 @@
 uuid: 40bac399-2d8e-40e3-af3b-f73a622c9687
 automation_module_uuid: 86cf0970-63e7-446a-b608-5d6f7e778a9b
-name: Skyhigh Secure Web Gateway / McAfee Web Gateway
-slug: mcafee-web-gateway
+name: Skyhigh Secure Web Gateway / McAfee Web Gateway improved
+slug: mcafee-web-gateway-improved
 description: >-
   McAfee Web Gateway / Skyhigh Secure Web Gateway is a high-performance web gateway with threat prevention, malware detection and reputation or Category-based filtering.
 data_sources:
