@@ -213,11 +213,11 @@ pipeline:
             %{DATA:source_zone_name} %{DATA:destination_zone_name}
             %{DATA:application} %{DATA:nested_application}
             %{DATA:username}\(%{DATA:roles}\) %{DATA:packet_incoming_interface}
-            %{DATA:encrypted} %{DATA:reason} %{NUMBER:session_id}
-            %{DATA:application_category} %{DATA:application_sub_category}
-            %{DATA:application_risk} %{DATA:application_characteristics}
-            %{DATA:src_vrf_grp} %{DATA:dst_vrf_grp} %{DATA:source_tenant}
-            %{DATA:destination_service}((( %{DATA:user_type}
+            %{DATA:encrypted}( %{DATA:reason})?( %{NUMBER:session_id})?(
+            %{DATA:application_category})?( %{DATA:application_sub_category})?(
+            %{DATA:application_risk})?( %{DATA:application_characteristics})?(
+            %{DATA:src_vrf_grp})?( %{DATA:dst_vrf_grp})?( %{DATA:source_tenant})?(
+            %{DATA:destination_service})?((( %{DATA:user_type}
             )?%{DATA:dst_identity_context_name}
             %{DATA:dst_identity_context_roles})? %{DATA:source_country}
             %{GREEDYDATA:destination_country})?
@@ -235,15 +235,15 @@ pipeline:
             %{NUMBER:packets_from_server}\(%{NUMBER:bytes_from_server}\)
             %{NUMBER:elapsed_time} %{DATA:application}
             %{DATA:nested_application} %{DATA:username}\(%{DATA:roles}\)
-            %{DATA:packet_incoming_interface} %{DATA:encrypted}
-            %{DATA:application_category} %{DATA:application_sub_category}
-            %{DATA:application_risk} %{DATA:application_characteristics}
-            %{DATA:secure_web_proxy_session_type} %{DATA:peer_session_id}
-            %{IPV4:peer_source_address}/%{NUMBER:peer_source_port}->%{IPV4:peer_destination_address}/%{NUMBER:peer_destination_port}
-            %{DATA:hostname} %{DATA:src_vrf_grp} %{DATA:dst_vrf_grp}
-            %{DATA:tunnel_inspection} %{DATA:tunnel_inspection_policy_set}
-            %{DATA:session_flag} %{DATA:source_tenant}
-            %{DATA:destination_service} %{DATA:user_type} %{GREEDYDATA}
+            %{DATA:packet_incoming_interface} %{DATA:encrypted}(
+            %{DATA:application_category})?( %{DATA:application_sub_category})?(
+            %{DATA:application_risk})?( %{DATA:application_characteristics})?(
+            %{DATA:secure_web_proxy_session_type})?( %{DATA:peer_session_id})?(
+            %{IPV4:peer_source_address}/%{NUMBER:peer_source_port}->%{IPV4:peer_destination_address}/%{NUMBER:peer_destination_port})?(
+            %{DATA:hostname})?( %{DATA:src_vrf_grp})?( %{DATA:dst_vrf_grp})?(
+            %{DATA:tunnel_inspection})?( %{DATA:tunnel_inspection_policy_set})?(
+            %{DATA:session_flag})?( %{DATA:source_tenant})?(
+            %{DATA:destination_service})?( %{DATA:user_type})?( %{GREEDYDATA})?
           WEBFILTER_URL_BLOCKED: >-
             WebFilter: ACTION="%{DATA:action}"
             (source-zone="%{DATA:source_zone}"
@@ -269,13 +269,13 @@ pipeline:
             %{DATA:source_zone_name} %{DATA:destination_zone_name}
             %{NUMBER:session_id} %{DATA:username}\(%{DATA:roles}\)
             %{DATA:packet_incoming_interface} %{DATA:application}
-            %{DATA:nested_application} %{DATA:encrypted}
-            %{DATA:application_category} %{DATA:application_sub_category}
-            %{DATA:application_risk} %{DATA:application_characteristics}
-            %{DATA:src_vrf_grp} %{DATA:dst_vrf_grp} %{DATA:tunnel_inspection}
-            %{DATA:tunnel_inspection_policy_set} %{DATA:source_tenant}
-            %{DATA:destination_service} %{DATA:dst_identity_context_name}
-            %{DATA:dst_identity_context_roles}%{GREEDYDATA}
+            %{DATA:nested_application} %{DATA:encrypted}(
+            %{DATA:application_category})?( %{DATA:application_sub_category})?(
+            %{DATA:application_risk})?( %{DATA:application_characteristics})?(
+            %{DATA:src_vrf_grp})?( %{DATA:dst_vrf_grp})?( %{DATA:tunnel_inspection})?(
+            %{DATA:tunnel_inspection_policy_set})?( %{DATA:source_tenant})?(
+            %{DATA:destination_service})?( %{DATA:dst_identity_context_name})?(
+            %{DATA:dst_identity_context_roles})?( %{GREEDYDATA})?
           WEBFILTER_URL_PERMITTED: >-
             WebFilter: ACTION="%{DATA:action}"
             (source-zone="%{DATA:source_zone}"
