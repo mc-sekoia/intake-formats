@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "/usr/sbin/cron[36324]: (root) MAIL (mailed 39 bytes of output but got status 0x0001 )",
+    "message": "<78>Aug  6 19:15:40 HOST_02 /usr/sbin/cron[36324]: (root) MAIL (mailed 39 bytes of output but got status 0x0001 )",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "/usr/sbin/cron[36324]: (root) MAIL (mailed 39 bytes of output but got status 0x0001 )",
+    "message": "<78>Aug  6 19:15:40 HOST_02 /usr/sbin/cron[36324]: (root) MAIL (mailed 39 bytes of output but got status 0x0001 )",
     "event": {
       "action": "MAIL",
       "category": [
@@ -21,8 +21,12 @@
         "info"
       ]
     },
+    "@timestamp": "2026-08-06T19:15:40Z",
     "error": {
       "code": "0001"
+    },
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "(root) MAIL (mailed 39 bytes of output but got status 0x0001 )"

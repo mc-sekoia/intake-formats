@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "mgd[31767]: UI_JUNOSCRIPT_CMD: User 'jdoe' used JUNOScript client to run command 'request-authentication user=root logname=root host=localhost agent=mgd current-directory=/var/home/remote_superuser pid=31501 ppid=18835'",
+    "message": "<190>Aug  7 05:01:30 HOST_02 mgd[31767]: UI_JUNOSCRIPT_CMD: User 'jdoe' used JUNOScript client to run command 'request-authentication user=root logname=root host=localhost agent=mgd current-directory=/var/home/remote_superuser pid=31501 ppid=18835'",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "mgd[31767]: UI_JUNOSCRIPT_CMD: User 'jdoe' used JUNOScript client to run command 'request-authentication user=root logname=root host=localhost agent=mgd current-directory=/var/home/remote_superuser pid=31501 ppid=18835'",
+    "message": "<190>Aug  7 05:01:30 HOST_02 mgd[31767]: UI_JUNOSCRIPT_CMD: User 'jdoe' used JUNOScript client to run command 'request-authentication user=root logname=root host=localhost agent=mgd current-directory=/var/home/remote_superuser pid=31501 ppid=18835'",
     "event": {
       "action": "UI_JUNOSCRIPT_CMD",
       "category": [
@@ -20,6 +20,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-07T05:01:30Z",
+    "host": {
+      "name": "HOST_02"
     },
     "juniper": {
       "ngfw": {

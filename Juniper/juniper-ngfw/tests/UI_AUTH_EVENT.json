@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "mgd[94759]: UI_AUTH_EVENT: Authenticated user 'jdoe' assigned to class 'super-user'",
+    "message": "<190>Aug  2 04:16:10 HOST_02 mgd[94759]: UI_AUTH_EVENT: Authenticated user 'jdoe' assigned to class 'super-user'",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "mgd[94759]: UI_AUTH_EVENT: Authenticated user 'jdoe' assigned to class 'super-user'",
+    "message": "<190>Aug  2 04:16:10 HOST_02 mgd[94759]: UI_AUTH_EVENT: Authenticated user 'jdoe' assigned to class 'super-user'",
     "event": {
       "action": "UI_AUTH_EVENT",
       "category": [
@@ -21,6 +21,10 @@
       "type": [
         "start"
       ]
+    },
+    "@timestamp": "2026-08-02T04:16:10Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "Authenticated user 'jdoe' assigned to class 'super-user'"

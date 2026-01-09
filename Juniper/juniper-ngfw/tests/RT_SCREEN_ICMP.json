@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "RT_IDS - RT_SCREEN_ICMP [attack-name=\"Address sweep!\" source-address=\"192.168.1.2\" destination-address=\"192.168.1.1\" source-zone-name=\"custom_zone_name\" interface-name=\"reth1.603\" action=\"alarm-without-drop\"]",
+    "message": "<11>1 2025-08-07T11:09:32.961+02:00 HOST_041 RT_IDS - RT_SCREEN_ICMP [attack-name=\"Address sweep!\" source-address=\"192.168.1.2\" destination-address=\"192.168.1.1\" source-zone-name=\"custom_zone_name\" interface-name=\"reth1.603\" action=\"alarm-without-drop\"]",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "RT_IDS - RT_SCREEN_ICMP [attack-name=\"Address sweep!\" source-address=\"192.168.1.2\" destination-address=\"192.168.1.1\" source-zone-name=\"custom_zone_name\" interface-name=\"reth1.603\" action=\"alarm-without-drop\"]",
+    "message": "<11>1 2025-08-07T11:09:32.961+02:00 HOST_041 RT_IDS - RT_SCREEN_ICMP [attack-name=\"Address sweep!\" source-address=\"192.168.1.2\" destination-address=\"192.168.1.1\" source-zone-name=\"custom_zone_name\" interface-name=\"reth1.603\" action=\"alarm-without-drop\"]",
     "event": {
       "action": "RT_SCREEN_ICMP",
       "category": [
@@ -22,9 +22,13 @@
         "allowed"
       ]
     },
+    "@timestamp": "2025-08-07T09:09:32.961000Z",
     "destination": {
       "address": "192.168.1.1",
       "ip": "192.168.1.1"
+    },
+    "host": {
+      "name": "HOST_041"
     },
     "juniper": {
       "ngfw": {

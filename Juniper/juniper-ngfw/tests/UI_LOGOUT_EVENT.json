@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "mgd[87462]: UI_LOGOUT_EVENT: User 'root' logout",
+    "message": "<190>Aug  6 20:03:08 HOST_02 mgd[87462]: UI_LOGOUT_EVENT: User 'root' logout",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "mgd[87462]: UI_LOGOUT_EVENT: User 'root' logout",
+    "message": "<190>Aug  6 20:03:08 HOST_02 mgd[87462]: UI_LOGOUT_EVENT: User 'root' logout",
     "event": {
       "action": "UI_LOGOUT_EVENT",
       "category": [
@@ -21,6 +21,10 @@
       "type": [
         "end"
       ]
+    },
+    "@timestamp": "2026-08-06T20:03:08Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "User 'root' logout"

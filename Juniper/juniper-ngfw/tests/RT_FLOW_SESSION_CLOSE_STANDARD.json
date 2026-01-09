@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "RT_FLOW: RT_FLOW_SESSION_CLOSE: session closed TCP CLIENT RST: 1.2.3.4/37769->5.6.7.8/25 0x0 junos-smtp 1.2.3.4/37769->5.6.7.8/25 0x0 N/A N/A static rule FML03P_SMTP03 6 Internet_to_AAAA_FO_002 Internet AAAA_FO 154619140403 60(52906) 47(26103) 3 UNKNOWN UNKNOWN N/A(N/A) reth2.1010 UNKNOWN N/A N/A -1 N/A NA 0 0.0.0.0/0->0.0.0.0/0 NA NA N/A N/A Off root 0 N/A N/A N/A N/A N/A",
+    "message": "<14>Aug  7 10:05:55 HOST_01 RT_FLOW: RT_FLOW_SESSION_CLOSE: session closed TCP CLIENT RST: 1.2.3.4/37769->5.6.7.8/25 0x0 junos-smtp 1.2.3.4/37769->5.6.7.8/25 0x0 N/A N/A static rule FML03P_SMTP03 6 Internet_to_AAAA_FO_002 Internet AAAA_FO 154619140403 60(52906) 47(26103) 3 UNKNOWN UNKNOWN N/A(N/A) reth2.1010 UNKNOWN N/A N/A -1 N/A NA 0 0.0.0.0/0->0.0.0.0/0 NA NA N/A N/A Off root 0 N/A N/A N/A N/A N/A",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "RT_FLOW: RT_FLOW_SESSION_CLOSE: session closed TCP CLIENT RST: 1.2.3.4/37769->5.6.7.8/25 0x0 junos-smtp 1.2.3.4/37769->5.6.7.8/25 0x0 N/A N/A static rule FML03P_SMTP03 6 Internet_to_AAAA_FO_002 Internet AAAA_FO 154619140403 60(52906) 47(26103) 3 UNKNOWN UNKNOWN N/A(N/A) reth2.1010 UNKNOWN N/A N/A -1 N/A NA 0 0.0.0.0/0->0.0.0.0/0 NA NA N/A N/A Off root 0 N/A N/A N/A N/A N/A",
+    "message": "<14>Aug  7 10:05:55 HOST_01 RT_FLOW: RT_FLOW_SESSION_CLOSE: session closed TCP CLIENT RST: 1.2.3.4/37769->5.6.7.8/25 0x0 junos-smtp 1.2.3.4/37769->5.6.7.8/25 0x0 N/A N/A static rule FML03P_SMTP03 6 Internet_to_AAAA_FO_002 Internet AAAA_FO 154619140403 60(52906) 47(26103) 3 UNKNOWN UNKNOWN N/A(N/A) reth2.1010 UNKNOWN N/A N/A -1 N/A NA 0 0.0.0.0/0->0.0.0.0/0 NA NA N/A N/A Off root 0 N/A N/A N/A N/A N/A",
     "event": {
       "action": "RT_FLOW_SESSION_CLOSE",
       "category": [
@@ -26,6 +26,7 @@
         "end"
       ]
     },
+    "@timestamp": "2026-08-07T10:05:55Z",
     "destination": {
       "address": "5.6.7.8",
       "bytes": 26103,
@@ -36,6 +37,9 @@
       },
       "packets": 47,
       "port": 25
+    },
+    "host": {
+      "name": "HOST_01"
     },
     "juniper": {
       "ngfw": {

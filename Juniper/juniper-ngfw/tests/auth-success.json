@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "1,2025/08/07 10:59:08,016301006286,SYSTEM,auth,2817,2025/08/07 10:59:09,,auth-success,Auth_Seq_RAH,0,0,general,informational,\"Kerberos SSO authenticated for user 'jdoe'. realm 'test.local',  auth profile 'Auth_Seq_RAH', vsys 'shared',\",7503878598546507619,0x0,0,0,0,0,,localhost,0,0,2025-08-07T10:59:09.193+02:00",
+    "message": "<12>Aug  7 01:00:36 HOST_02.RAH-R.xxxx 1,2025/08/07 10:59:08,016301006286,SYSTEM,auth,2817,2025/08/07 10:59:09,,auth-success,Auth_Seq_RAH,0,0,general,informational,\"Kerberos SSO authenticated for user 'jdoe'. realm 'test.local',  auth profile 'Auth_Seq_RAH', vsys 'shared',\",7503878598546507619,0x0,0,0,0,0,,localhost,0,0,2025-08-07T10:59:09.193+02:00",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "1,2025/08/07 10:59:08,016301006286,SYSTEM,auth,2817,2025/08/07 10:59:09,,auth-success,Auth_Seq_RAH,0,0,general,informational,\"Kerberos SSO authenticated for user 'jdoe'. realm 'test.local',  auth profile 'Auth_Seq_RAH', vsys 'shared',\",7503878598546507619,0x0,0,0,0,0,,localhost,0,0,2025-08-07T10:59:09.193+02:00",
+    "message": "<12>Aug  7 01:00:36 HOST_02.DOMAIN-A.xxxx 1,2025/08/07 10:59:08,016301006286,SYSTEM,auth,2817,2025/08/07 10:59:09,,auth-success,Auth_Seq_RAH,0,0,general,informational,\"Kerberos SSO authenticated for user 'jdoe'. realm 'test.local',  auth profile 'Auth_Seq_RAH', vsys 'shared',\",7503878598546507619,0x0,0,0,0,0,,localhost,0,0,2025-08-07T10:59:09.193+02:00",
     "event": {
       "action": "auth-success",
       "category": [

@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "xntpd: kernel time sync enabled 2001",
+    "message": "<99>Aug  7 11:10:35 HOST_02 xntpd: kernel time sync enabled 2001",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "xntpd: kernel time sync enabled 2001",
+    "message": "<99>Aug  7 11:10:35 HOST_02 xntpd: kernel time sync enabled 2001",
     "event": {
       "category": [
         "network"
@@ -19,6 +19,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-07T11:10:35Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "kernel time sync enabled 2001"

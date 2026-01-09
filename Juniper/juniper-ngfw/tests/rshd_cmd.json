@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "rshd[93991]: root@192.168.1.1 as root: cmd='rcp -t //var/etc/dynamic_address.id+'",
+    "message": "<39>Aug  6 18:19:43 HOST_02 rshd[93991]: root@192.168.1.1 as root: cmd='rcp -t //var/etc/dynamic_address.id+'",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "rshd[93991]: root@192.168.1.1 as root: cmd='rcp -t //var/etc/dynamic_address.id+'",
+    "message": "<39>Aug  6 18:19:43 HOST_02 rshd[93991]: root@192.168.1.1 as root: cmd='rcp -t //var/etc/dynamic_address.id+'",
     "event": {
       "category": [
         "process"
@@ -19,6 +19,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-06T18:19:43Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "cmd='rcp -t //var/etc/dynamic_address.id+'"

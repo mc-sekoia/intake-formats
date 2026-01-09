@@ -6,10 +6,10 @@
         "dialect_uuid": "f5f05e2a-32fc-432d-9f00-11f490ae15f4"
       }
     },
-    "message": "l2ald[111111]: L2ALD_ST_CTL_IN_EFFECT: ge-1/0/10.0: storm control in effect on the port"
+    "message": "<31>Aug  7 10:19:25 HOST_02 l2ald[111111]: L2ALD_ST_CTL_IN_EFFECT: ge-1/0/10.0: storm control in effect on the port"
   },
   "expected": {
-    "message": "l2ald[111111]: L2ALD_ST_CTL_IN_EFFECT: ge-1/0/10.0: storm control in effect on the port",
+    "message": "<31>Aug  7 10:19:25 HOST_02 l2ald[111111]: L2ALD_ST_CTL_IN_EFFECT: ge-1/0/10.0: storm control in effect on the port",
     "event": {
       "action": "L2ALD_ST_CTL_IN_EFFECT",
       "category": [
@@ -20,6 +20,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-07T10:19:25Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "ge-1/0/10.0: storm control in effect on the port"

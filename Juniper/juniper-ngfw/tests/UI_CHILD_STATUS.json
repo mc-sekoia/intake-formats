@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "mgd[78145]: UI_CHILD_STATUS: Cleanup child '/sbin/ifinfo', PID 78147, status 0",
+    "message": "<190>Aug  2 03:01:43 HOST_02 mgd[78145]: UI_CHILD_STATUS: Cleanup child '/sbin/ifinfo', PID 78147, status 0",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "mgd[78145]: UI_CHILD_STATUS: Cleanup child '/sbin/ifinfo', PID 78147, status 0",
+    "message": "<190>Aug  2 03:01:43 HOST_02 mgd[78145]: UI_CHILD_STATUS: Cleanup child '/sbin/ifinfo', PID 78147, status 0",
     "event": {
       "action": "UI_CHILD_STATUS",
       "category": [
@@ -20,6 +20,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-02T03:01:43Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "Cleanup child '/sbin/ifinfo', PID 78147, status 0"

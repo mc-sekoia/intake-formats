@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "mgd[54999]: UI_LOGIN_EVENT: User 'jdoe' login, class 'j-ids' [54999], ssh-connection '192.168.1.1 40382 192.168.1.2 22', client-mode 'cli'",
+    "message": "<190>Aug  7 11:07:49 HOST_041 mgd[54999]: UI_LOGIN_EVENT: User 'jdoe' login, class 'j-ids' [54999], ssh-connection '192.168.1.1 40382 192.168.1.2 22', client-mode 'cli'",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "mgd[54999]: UI_LOGIN_EVENT: User 'jdoe' login, class 'j-ids' [54999], ssh-connection '192.168.1.1 40382 192.168.1.2 22', client-mode 'cli'",
+    "message": "<190>Aug  7 11:07:49 HOST_041 mgd[54999]: UI_LOGIN_EVENT: User 'jdoe' login, class 'j-ids' [54999], ssh-connection '192.168.1.1 40382 192.168.1.2 22', client-mode 'cli'",
     "event": {
       "action": "UI_LOGIN_EVENT",
       "category": [
@@ -22,10 +22,14 @@
         "start"
       ]
     },
+    "@timestamp": "2026-08-07T11:07:49Z",
     "destination": {
       "address": "192.168.1.2",
       "ip": "192.168.1.2",
       "port": 22
+    },
+    "host": {
+      "name": "HOST_041"
     },
     "juniper": {
       "ngfw": {

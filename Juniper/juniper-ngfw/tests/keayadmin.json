@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "keyadmin[95280]: dump_assn: found old association 192.168.1.1:179 md5 00000003:0x3356785a4e5949306c",
+    "message": "<31>Aug  7 10:19:25 HOST_02 keyadmin[95280]: dump_assn: found old association 192.168.1.1:179 md5 00000003:0x3356785a4e5949306c",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "keyadmin[95280]: dump_assn: found old association 192.168.1.1:179 md5 00000003:0x3356785a4e5949306c",
+    "message": "<31>Aug  7 10:19:25 HOST_02 keyadmin[95280]: dump_assn: found old association 192.168.1.1:179 md5 00000003:0x3356785a4e5949306c",
     "event": {
       "action": "dump_assn",
       "category": [
@@ -20,6 +20,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-07T10:19:25Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "found old association 192.168.1.1:179 md5 00000003:0x3356785a4e5949306c"

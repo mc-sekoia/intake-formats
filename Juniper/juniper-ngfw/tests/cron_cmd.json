@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "/usr/sbin/cron[41404]: (root) CMD (   sh /var/etc/ukern_gbl_rotate.sh)",
+    "message": "<78>Aug  7 09:00:35 HOST_02 /usr/sbin/cron[41404]: (root) CMD (   sh /var/etc/ukern_gbl_rotate.sh)",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "/usr/sbin/cron[41404]: (root) CMD (   sh /var/etc/ukern_gbl_rotate.sh)",
+    "message": "<78>Aug  7 09:00:35 HOST_02 /usr/sbin/cron[41404]: (root) CMD (   sh /var/etc/ukern_gbl_rotate.sh)",
     "event": {
       "action": "CMD",
       "category": [
@@ -20,6 +20,10 @@
       "type": [
         "info"
       ]
+    },
+    "@timestamp": "2026-08-07T09:00:35Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "(root) CMD (  sh /var/etc/ukern_gbl_rotate.sh)"

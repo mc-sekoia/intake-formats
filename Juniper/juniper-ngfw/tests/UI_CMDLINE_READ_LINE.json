@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "mgd[22688]: UI_CMDLINE_READ_LINE: User 'jdoe' command 'show configuration system | display inheritance defaults | display xml | match host-name | no-more '",
+    "message": "<190>Aug  2 04:16:11 HOST_02 mgd[22688]: UI_CMDLINE_READ_LINE: User 'jdoe' command 'show configuration system | display inheritance defaults | display xml | match host-name | no-more '",
     "sekoiaio": {
       "intake": {
         "dialect": "Juniper NGFW",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "mgd[22688]: UI_CMDLINE_READ_LINE: User 'jdoe' command 'show configuration system | display inheritance defaults | display xml | match host-name | no-more '",
+    "message": "<190>Aug  2 04:16:11 HOST_02 mgd[22688]: UI_CMDLINE_READ_LINE: User 'jdoe' command 'show configuration system | display inheritance defaults | display xml | match host-name | no-more '",
     "event": {
       "action": "UI_CMDLINE_READ_LINE",
       "category": [
@@ -21,6 +21,10 @@
       "type": [
         "access"
       ]
+    },
+    "@timestamp": "2026-08-02T04:16:11Z",
+    "host": {
+      "name": "HOST_02"
     },
     "log": {
       "description": "User 'jdoe' command 'show configuration system | display inheritance defaults | display xml | match host-name | no-more '"
