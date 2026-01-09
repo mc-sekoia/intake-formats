@@ -17,21 +17,19 @@ pipeline:
           NO_FORMAT: "%{GREEDYDATA:message}"
           NOT_BRACKETS: '[^\[\]]+'
           STANDARD_FORMAT: >-
-            (%{NOT_COLON:event_dataset}:
-            \%%{NOT_DASH}-%{INT:severity}-%{NOT_COLON:tag}:|%{NOT_COLON:event_dataset}:
-            %{NOT_COLON:tag}:|%{WORD:hostname}
-            %{NOT_COLON:tag}:|%{NOT_COLON:event_provider}\:)\s+%{GREEDYDATA:message}
+            (\%%{NOT_DASH}-%{INT:severity}-%{NOT_COLON:tag}:|%{NOT_COLON:tag}:|%{WORD:hostname}
+            %{NOT_COLON:tag}:)\s+%{GREEDYDATA:message}
           SYSTEM_LOG_FORMAT: >-
             %{NOT_BRACKETS:event_provider}\[%{NUMBER}\]\:(%{NOT_BRACKETS:process_name}\[%{NUMBER:process_id}\]:
             %{GREEDYDATA:message}|\s%{GREEDYDATA:username}@%{IPORHOST:source_address}
             as
             %{GREEDYDATA:process_username}:\s%{GREEDYDATA:message}|\s\%%{NOT_DASH}-%{INT:severity}-%{NOT_COLON:tag}\:\s%{GREEDYDATA:message}|\s\%%{NOT_DASH}-%{INT:severity}\:\s%{JUNIPER_TAG_FORMAT:tag}\:\s%{GREEDYDATA:message}|\s\%%{NOT_DASH}-%{INT:severity}\:\s%{GREEDYDATA:message}|\s%{JUNIPER_TAG_FORMAT:tag}\:
             %{GREEDYDATA:message}|\s%{GREEDYDATA:message})
-          JUNIPER_TAG_FORMAT: "[A-Za-z_]+"
+          JUNIPER_TAG_FORMAT: "[A-Za-z0-9_]+"
           COMMA_SEPARATED_FORMAT: >-
             %{NUMBER},%{GREEDYDATA:start},%{NUMBER},%{GREEDYDATA:event_provider},%{GREEDYDATA:action},%{NUMBER},%{GREEDYDATA:end},%{DATA},%{GREEDYDATA:tag},%{DATA},%{DATA},%{DATA},%{DATA},%{GREEDYDATA:log_level},\"%{GREEDYDATA:message}\",%{NUMBER},0x%{NUMBER},%{NUMBER},%{NUMBER},%{NUMBER},%{NUMBER},%{DATA},%{GREEDYDATA:hostname},%{NUMBER},%{NUMBER},%{TIMESTAMP_ISO8601:timestamp}
           STRUCTURED_DATA_FORMAT: >-
-            %{NOTSPACE:event_dataset}\s%{NOTSPACE:junos_process_id}\s%{NOTSPACE:tag}\s\[(junos@[0-9]+\.%{VERSION:plateform}\s)?%{GREEDYDATA:variable_value_pairs}\](\s%{GREEDYDATA:end_message})?
+            %{NOTSPACE:tag}\s\[(junos@[0-9]+\.%{VERSION:plateform}\s)?%{GREEDYDATA:variable_value_pairs}\](\s%{GREEDYDATA:end_message})?
   - name: parsed_event
     description: STRUCTURED_DATA_FORMAT parsing
     filter: "{{ parsed_header.message.STRUCTURED_DATA_FORMAT != None }}"
@@ -401,7 +399,6 @@ stages:
           event.action: "{{parsed_header.message.tag}}"
       - set:
           event.reason: "{{parsed_event.message.reason}}"
-          event.dataset: "{{parsed_header.message.event_dataset}}"
           event.provider: >-
             {{parsed_header.message.event_provider.replace('/usr/sbin/','').replace('/usr/bin/','')|lower}}
       - set:
@@ -588,7 +585,7 @@ stages:
           juniper.ngfw.ids.attack.name: >-
             {{parsed_event.message['attack-name'] or
             parsed_event.message.attack_name}}
-        filter: "{{'IDS' in final.event.dataset}}"
+        filter: "{{'IDS' in original.log.syslog.appname}}"
       - set:
           juniper.ngfw.tunnel.inspection: >-
             {%if parsed_event.message['tunnel-inspection']|lower == 'on'
@@ -607,7 +604,7 @@ stages:
           event.kind: alert
         filter: >-
           {{'alert' in final.event.message|lower or 'alert' in
-          final.event.action|lower or (final.event.dataset== 'RT_IDS' or
+          final.event.action|lower or (original.log.syslog.appname == 'RT_IDS' or
           'INFECTED' in final.event.action or 'DETECTED' in
           final.event.action)}}
       - set:
@@ -733,7 +730,7 @@ stages:
       - set:
           event.category: "{{(final.event.category|default([])) + ['intrusion_detection']}}"
         filter: >-
-          {{'rt_ids' in final.event.dataset|lower}}
+          {{'rt_ids' in original.log.syslog.appname|lower}}
       - set:
           event.type: "{{(final.event.type|default([])) + ['allowed']}}"
         filter: >-
@@ -755,7 +752,7 @@ stages:
           event.category: "{{(final.event.category|default([])) + ['network']}}"
         filter: >-
           {{final.event.category is not defined and final.observer.type ==
-          'firewall' or 'RT_FLOW' in final.event.dataset|lower}}
+          'firewall' or 'rt_flow' in original.log.syslog.appname|lower}}
       - set:
           event.type: "{{(final.event.type|default([])) + ['connection']}}"
         filter: >-
