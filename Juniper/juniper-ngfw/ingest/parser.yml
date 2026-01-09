@@ -9,7 +9,10 @@ pipeline:
         input_field: "{{original.message.replace('  ',' ')}}"
         output_field: message
         pattern: >-
-          %{STRUCTURED_DATA_FORMAT}|%{SYSTEM_LOG_FORMAT}|%{STANDARD_FORMAT}|%{COMMA_SEPARATED_FORMAT}|%{NO_FORMAT}
+          (<%{NUMBER:priority_code}>(%{NUMBER:version}
+          )?(%{SYSLOGTIMESTAMP:timestamp}|%{TIMESTAMP_ISO8601:timestamp})
+          %{NOTSPACE:hostname}|(%{SYSLOGTIMESTAMP:timestamp}|%{TIMESTAMP_ISO8601:timestamp}))
+          (%{STRUCTURED_DATA_FORMAT}|%{SYSTEM_LOG_FORMAT}|%{STANDARD_FORMAT}|%{COMMA_SEPARATED_FORMAT}|%{NO_FORMAT})
         custom_patterns:
           VERSION: ([0-9]+\.?)+
           NOT_DASH: "[^-]+"
