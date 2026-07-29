@@ -1,0 +1,212 @@
+name: nasuni
+ignored_values: 
+  - null
+pipeline:
+  - name: parsed_event
+    description: ''
+    filter: '{{original.message.startswith(''{'')}}'
+    external:
+      name: json.parse-json
+      properties:
+        input_field: '{{original.message}}'
+        output_field: message
+  - name: parsed_date
+    external:
+      name: date.parse
+      properties:
+        input_field: '{{parsed_event.message.timestamp}}'
+        output_field: timestamp
+        format: null
+        timezone: UTC
+  - name: ecs_observer_mapping
+  - name: ecs_event_mapping
+  - name: ecs_user_mapping
+  - name: ecs_source_mapping
+  - name: ecs_file_mapping
+  - name: ecs_process_mapping
+  - name: ecs_network_mapping
+  - name: custom_field_mapping
+  - name: ecs_kind_categorization
+  - name: ecs_authentication_categorization
+  - name: ecs_file_categorization
+  - name: ecs_outcome_categorization
+stages:
+  ecs_observer_mapping:
+    actions:
+      - set:
+          observer.type: storage
+          observer.vendor: Nasuni
+          observer.hostname: '{{original.log.hostname}}'
+        filter: '{{original.log is defined}}'
+      - set:
+          observer.hostname: '{{original.log.hostname}}'
+        filter: '{{not (original.log.hostname | is_ipaddress)}}'
+      - set:
+          observer.ip: '{{original.log.hostname}}'
+        filter: '{{original.log.hostname | is_ipaddress}}'
+  ecs_event_mapping:
+    actions:
+      - set:
+          event.code: '{{parsed_event.message.flags}}'
+          event.action: '{{parsed_event.message.event_type.replace("AUDIT_","")}}'
+          event.sequence: '{{parsed_event.message.sequence}}'
+      - set:
+          event.severity: '{{original.log.syslog.severity.code}}'
+      - set:
+          '@timestamp': '{{parsed_date.timestamp}}'
+  ecs_user_mapping:
+    actions:
+      - set:
+          user.id: '{{parsed_event.message.sid}}'
+          user.name: '{{parsed_event.message.name or parsed_event.message.username}}'
+          user.group.name: '{{parsed_event.message.groupname}}'
+      - set:
+          user.domain: '{{final.user.name.split(''@'')[1]}}'
+        filter: '{{final.user.name is defined and ''@'' in final.user.name}}'
+  ecs_source_mapping:
+    actions:
+      - set:
+          source.domain: '{{parsed_event.message.ipaddr}}'
+        filter: '{{not (parsed_event.message.ipaddr| is_ipaddress)}}'
+      - set:
+          source.ip: '{{parsed_event.message.ipaddr}}'
+        filter: '{{parsed_event.message.ipaddr| is_ipaddress}}'
+      - set:
+          source.user.name: '{{final.user.name}}'
+      - set:
+          source.user.domain: '{{final.source.user.name.split(''@'')[1]}}'
+        filter: >-
+          {{final.source.user.name is defined and '@' in
+          final.source.user.name}}
+  ecs_file_mapping:
+    actions:
+      - set:
+          file.gid: '{{parsed_event.message.gid}}'
+          file.mode: '{{parsed_event.message.mode}}'
+          file.size: '{{parsed_event.message.filesize}}'
+          file.mtime: '{{parsed_event.message.ts}}'
+          file.target_path: '{{parsed_event.message.to}}'
+      - set:
+          file.path: '{{parsed_event.message.newpath}}'
+        filter: '{{parsed_event.message.newpath is defined}}'
+      - set:
+          file.path: '{{parsed_event.message.path}}'
+        filter: '{{final.file.path is not defined}}'
+  ecs_process_mapping:
+    actions:
+      - set:
+          process.pid: '{{parsed_event.message.pid}}'
+          process.thread.id: '{{parsed_event.message.tid}}'
+  ecs_network_mapping:
+    actions:
+      - dictionary:
+          AUDIT_PROTO_FTP: FTP
+          AUDIT_PROTO_NFS: NFS
+          AUDIT_PROTO_CIFS: CIFS
+        mapping:
+          parsed_event.message.proto: network.protocol
+        name: translate
+  custom_field_mapping:
+    actions:
+      - set:
+          nasuni.audit.file.is_dir: '{{parsed_event.message.is_dir}}'
+          nasuni.audit.file.volume: '{{parsed_event.message.volume}}'
+          nasuni.audit.file.datasync: '{{parsed_event.message.datasync}}'
+          nasuni.audit.file.shared_link_key: '{{parsed_event.message.shared_link_key}}'
+      - set:
+          nasuni.audit.file.new_path: '{{parsed_event.message.newpath}}'
+          nasuni.audit.file.old_path: '{{parsed_event.message.path}}'
+        filter: '{{parsed_event.message.newpath is defined and parsed_event.message.newpath != None}}'
+      - set:
+          nasuni.audit.request.type: '{{parsed_event.message.event_type}}'
+          nasuni.audit.request.lenght: '{{parsed_event.message.lenght}}'
+          nasuni.audit.request.offset: '{{parsed_event.message.offset}}'
+          nasuni.audit.request.protocol: '{{parsed_event.message.proto}}'
+      - set:
+          nasuni.audit.ressource.name: '{{parsed_event.message.ressource}}'
+  ecs_kind_categorization:
+    actions:
+      - set:
+          event.kind: alert
+        filter: '{{final.event.action == "AUDIT_AV_VIOLATION"}}'
+      - set:
+          event.kind: event
+        filter: '{{final.event.kind is not defined}}'
+  ecs_authentication_categorization:
+    actions:
+      - set:
+          event.category: '{{(final.event.category|default([])) + [''authentication'']}}'
+        filter: >-
+          {{'login' in final.event.action|lower or 'logon' in
+          final.event.action|lower or 'authentication' in
+          final.event.action|lower or 'logout' in final.event.action|lower or 
+          'logoff' in final.event.action|lower}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''end'']}}'
+        filter: >-
+          {{'end' not in final.event.type and 'authentication' in
+          final.event.category and ('logout' in final.event.action|lower or 
+          'logoff' in final.event.action|lower)}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''start'']}}'
+        filter: >-
+          {{'start' not in final.event.type and 'authentication' in
+          final.event.category and 'end' not in final.event.type and ('login' in
+          final.event.action|lower or 'logon' in final.event.action|lower or
+          final.event.action|lower == 'user authentication')}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''info'']}}'
+        filter: >-
+          {{'info' not in final.event.type and 'authentication' in
+          final.event.category and 'end' not in final.event.type and 'start' not
+          in final.event.type}}
+  ecs_file_categorization:
+    actions:
+      - set:
+          event.category: '{{(final.event.category|default([])) + [''file'']}}'
+        filter: '{{final.event.category is not defined or final.file is defined}}'
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''access'']}}'
+        filter: >-
+          {{'file' in final.event.category and
+          (final.event.action.startswith('READ') or
+          final.event.action.startswith('GET') or
+          final.event.action.startswith('OPEN') or
+          final.event.action.startswith('CLOSE') or
+          final.event.action.startswith('LIST') or
+          final.event.action.startswith('STAT') or
+          final.event.action.endswith('ACCESS'))}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''change'']}}'
+        filter: >-
+          {{'change' not in final.event.type and 'access' not in
+          final.event.type and 'file' in final.event.category and 
+          (final.event.action in
+          ["RENAME","WRITE","SYMLINK","LINK","CHMOD","CHOWN","TRUNCATE",
+          "FSYNC","FLUSH","RELEASE","RELEASEDIR","SETXATTR","REMOVEXATTR","SHARED_LINK_DELETE",
+          "SHARED_LINK_MODIFY","SHARED_LINK_CREATE","SHARED_LINK_REGEN"])}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''creation'']}}'
+        filter: >-
+          {{'creation' not in final.event.type and 'change' not in
+          final.event.type and 'access' not in final.event.type and 'file' in
+          final.event.category and  (final.event.action in
+          ["MKNOD","MKDIR","RESTORE"])}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''deletion'']}}'
+        filter: >-
+          {{'deletion' not in final.event.type and 'creation' not in
+          final.event.type and 'change' not in final.event.type and 'access' not
+          in final.event.type and 'file' in final.event.category and 
+          (final.event.action in ["RMDIR","UNLINK"])}}
+      - set:
+          event.type: '{{(final.event.type|default([])) + [''info'']}}'
+        filter: '{{''file'' in final.event.category and final.event.type is not defined}}'
+  ecs_outcome_categorization:
+    actions:
+      - set:
+          event.outcome: success
+        filter: '{{not parsed_event.message.result}}'
+      - set:
+          event.outcome: failure
+        filter: '{{parsed_event.message.result}}'
