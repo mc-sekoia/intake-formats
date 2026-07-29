@@ -1,0 +1,110 @@
+{
+  "input": {
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Nasuni Audit Logs",
+        "dialect_uuid": "1646972c-7cae-410c-95e3-c79c6844d190"
+      }
+    },
+    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_RENAME\", \"sequence\": 225176, \"pid\": 4186593, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1631542, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.2978177, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"10.51.29.22\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-3521394032-2318956005-3649292529-1231542\", \"tid\": 4186593, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"5336aa8c-bd8d-427b-8b35-6010e05f8e2b_1\", \"offset\": null, \"path\": \"/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/1_PDFsam_RP_FACTURE_CM.pdf\", \"newpath\": \"/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/ARBE FACTURE.pdf\", \"shared_link_key\": null, \"resource\": \"UE1674\", \"name\": null, \"length\": null, \"flags\": null, \"mode\": null}\n",
+    "log": {
+      "hostname": "nasuni-host",
+      "syslog": {
+        "appname": "nasuni.aaaaa-aaaa-aaaa-aaaa-a[8015]",
+        "facility": {
+          "code": 17,
+          "name": "local1"
+        },
+        "priority": 6,
+        "severity": {
+          "code": 6,
+          "name": "info"
+        }
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_RENAME\", \"sequence\": 225176, \"pid\": 4186593, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1631542, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.2978177, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"10.51.29.22\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-3521394032-2318956005-3649292529-1231542\", \"tid\": 4186593, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"5336aa8c-bd8d-427b-8b35-6010e05f8e2b_1\", \"offset\": null, \"path\": \"/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/1_PDFsam_RP_FACTURE_CM.pdf\", \"newpath\": \"/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/ARBE FACTURE.pdf\", \"shared_link_key\": null, \"resource\": \"UE1674\", \"name\": null, \"length\": null, \"flags\": null, \"mode\": null}\n",
+    "event": {
+      "action": "RENAME",
+      "category": [
+        "file"
+      ],
+      "kind": "event",
+      "outcome": "success",
+      "sequence": 225176,
+      "severity": 6,
+      "type": [
+        "change"
+      ]
+    },
+    "@timestamp": "2026-07-26T22:16:28.297818Z",
+    "file": {
+      "directory": "/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026",
+      "gid": "400513",
+      "name": "ARBE FACTURE.pdf",
+      "path": "/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/ARBE FACTURE.pdf"
+    },
+    "log": {
+      "hostname": "nasuni-host",
+      "syslog": {
+        "appname": "nasuni.aaaaa-aaaa-aaaa-aaaa-a[8015]",
+        "facility": {
+          "code": 17,
+          "name": "local1"
+        },
+        "priority": 6,
+        "severity": {
+          "code": 6,
+          "name": "info"
+        }
+      }
+    },
+    "nasuni": {
+      "audit": {
+        "file": {
+          "is_dir": false,
+          "new_path": "/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/ARBE FACTURE.pdf",
+          "old_path": "/UE1674/Commun/SERVICE ADMINISTRATIF/CHRONOS/CDD/1. CHRONOS/1.2. FACTURES/2026/07 - JUILLET ZEPHYR/24072026/1_PDFsam_RP_FACTURE_CM.pdf",
+          "volume": "5336aa8c-bd8d-427b-8b35-6010e05f8e2b_1"
+        },
+        "request": {
+          "protocol": "AUDIT_PROTO_CIFS",
+          "type": "AUDIT_RENAME"
+        }
+      }
+    },
+    "network": {
+      "protocol": "CIFS"
+    },
+    "observer": {
+      "hostname": "nasuni-host",
+      "type": "storage",
+      "vendor": "Nasuni"
+    },
+    "process": {
+      "pid": 4186593,
+      "thread": {
+        "id": 4186593
+      }
+    },
+    "related": {
+      "hosts": [
+        "nasuni-host"
+      ],
+      "ip": [
+        "10.51.29.22"
+      ]
+    },
+    "source": {
+      "address": "10.51.29.22",
+      "ip": "10.51.29.22"
+    },
+    "user": {
+      "group": {
+        "name": "GROUPE\\utilisa. du domaine"
+      },
+      "id": "S-1-5-21-3521394032-2318956005-3649292529-1231542"
+    }
+  }
+}
