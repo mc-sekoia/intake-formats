@@ -27,6 +27,8 @@ pipeline:
   - name: ecs_network_mapping
   - name: custom_field_mapping
   - name: ecs_kind_categorization
+  - name: ecs_host_categorization
+    filter: '{{not original.message.startswith(''{'')}}'
   - name: ecs_authentication_categorization
   - name: ecs_file_categorization
   - name: ecs_outcome_categorization
@@ -54,6 +56,9 @@ stages:
           event.severity: '{{original.log.syslog.severity.code}}'
       - set:
           '@timestamp': '{{parsed_date.timestamp}}'
+      - set:
+          log.description: '{{original.message}}'
+        filter: '{{not original.message.startswith(''{'')}}'
   ecs_user_mapping:
     actions:
       - set:
@@ -132,6 +137,11 @@ stages:
       - set:
           event.kind: event
         filter: '{{final.event.kind is not defined}}'
+  ecs_host_categorization:
+    actions:
+      - set:
+          event.category: host
+          event.type: info
   ecs_authentication_categorization:
     actions:
       - set:
