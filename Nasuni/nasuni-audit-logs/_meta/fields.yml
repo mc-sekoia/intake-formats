@@ -17,7 +17,10 @@ nasuni.audit.request.protocol:
   description: 'The protocol used to access the resource'
   name: nasuni.audit.request.protocol
   type: keyword
-
+nasuni.audit.request.operation:
+  description: 'The operation used'
+  name: nasuni.audit.request.operation
+  type: keyword
 nasuni.audit.file.shared_link_key:
   description: 'Unique identifier created when a shared link is created or available for the file.'
   name: nasuni.audit.file.shared_link_key
@@ -37,11 +40,6 @@ nasuni.audit.file.is_dir:
   description: 'Indicates if this is a directory'
   name: nasuni.audit.file.is_dir
   type: boolean
-
-nasuni.audit.request.type:
-  description: 'Type of operation being performed'
-  name: nasuni.audit.request.type
-  type: keyword
 
 nasuni.audit.file.old_path:
   description: 'File path as it was before modification'

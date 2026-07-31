@@ -6,7 +6,7 @@
         "dialect_uuid": "1646972c-7cae-410c-95e3-c79c6844d190"
       }
     },
-    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_SETXATTR\", \"sequence\": 95330524, \"pid\": 4110847, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1725051, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.1801796, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"10.66.10.50\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-3521394032-2318956005-3649292529-1325051\", \"tid\": 4110847, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"c039ec29-7915-4f7c-a697-85d5e82cfb2e_0\", \"offset\": null, \"path\": \"/UE1428/Shares/Iceland/VOG/GrunnurV2/SnertiVigtun.ldb\", \"newpath\": null, \"shared_link_key\": null, \"resource\": \"UE1428\", \"name\": \"toto\", \"length\": null, \"flags\": null, \"mode\": null}",
+    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_SETXATTR\", \"sequence\": 95330524, \"pid\": 4110847, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1725051, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.1801796, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"192.168.1.2\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-111111111-111111111-11111111-11111111\", \"tid\": 4110847, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"aaaaaaaa-aaaa-aaaa-aaaaaaaaaaa\", \"offset\": null, \"path\": \"/PATH/TO/FILE/FILE.txt\", \"newpath\": null, \"shared_link_key\": null, \"resource\": \"UE1428\", \"name\": \"toto\", \"length\": null, \"flags\": null, \"mode\": null}",
     "log": {
       "hostname": "nasuni-host",
       "syslog": {
@@ -24,7 +24,7 @@
     }
   },
   "expected": {
-    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_SETXATTR\", \"sequence\": 95330524, \"pid\": 4110847, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1725051, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.1801796, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"10.66.10.50\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-3521394032-2318956005-3649292529-1325051\", \"tid\": 4110847, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"c039ec29-7915-4f7c-a697-85d5e82cfb2e_0\", \"offset\": null, \"path\": \"/UE1428/Shares/Iceland/VOG/GrunnurV2/SnertiVigtun.ldb\", \"newpath\": null, \"shared_link_key\": null, \"resource\": \"UE1428\", \"name\": \"toto\", \"length\": null, \"flags\": null, \"mode\": null}",
+    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_SETXATTR\", \"sequence\": 95330524, \"pid\": 4110847, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1725051, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.1801796, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"192.168.1.2\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-111111111-111111111-11111111-11111111\", \"tid\": 4110847, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"aaaaaaaa-aaaa-aaaa-aaaaaaaaaaa\", \"offset\": null, \"path\": \"/PATH/TO/FILE/FILE.txt\", \"newpath\": null, \"shared_link_key\": null, \"resource\": \"UE1428\", \"name\": \"toto\", \"length\": null, \"flags\": null, \"mode\": null}",
     "event": {
       "action": "SETXATTR",
       "category": [
@@ -40,10 +40,10 @@
     },
     "@timestamp": "2026-07-26T22:16:28.180180Z",
     "file": {
-      "directory": "/UE1428/Shares/Iceland/VOG/GrunnurV2",
+      "directory": "/PATH/TO/FILE",
       "gid": "400513",
-      "name": "SnertiVigtun.ldb",
-      "path": "/UE1428/Shares/Iceland/VOG/GrunnurV2/SnertiVigtun.ldb"
+      "name": "FILE.txt",
+      "path": "/PATH/TO/FILE/FILE.txt"
     },
     "log": {
       "hostname": "nasuni-host",
@@ -64,11 +64,10 @@
       "audit": {
         "file": {
           "is_dir": false,
-          "volume": "c039ec29-7915-4f7c-a697-85d5e82cfb2e_0"
+          "volume": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaa"
         },
         "request": {
-          "protocol": "AUDIT_PROTO_CIFS",
-          "type": "AUDIT_SETXATTR"
+          "protocol": "AUDIT_PROTO_CIFS"
         }
       }
     },
@@ -91,16 +90,17 @@
         "nasuni-host"
       ],
       "ip": [
-        "10.66.10.50"
+        "192.168.1.2"
       ],
       "user": [
         "toto"
       ]
     },
     "source": {
-      "address": "10.66.10.50",
-      "ip": "10.66.10.50",
+      "address": "192.168.1.2",
+      "ip": "192.168.1.2",
       "user": {
+        "id": "S-1-5-21-111111111-111111111-11111111-11111111",
         "name": "toto"
       }
     },
@@ -108,7 +108,7 @@
       "group": {
         "name": "GROUPE\\utilisa. du domaine"
       },
-      "id": "S-1-5-21-3521394032-2318956005-3649292529-1325051",
+      "id": "S-1-5-21-111111111-111111111-11111111-11111111",
       "name": "toto"
     }
   }

@@ -2910,6 +2910,28 @@
     ]
   },
   {
+    "value": "Filer {nasuni.audit.file.filer.name} : {event.action}",
+    "conditions": [
+      {
+        "field": "event.action"
+      },
+      {
+        "field": "nasuni.audit.file.filer.name"
+      }
+    ]
+  },
+  {
+    "value": "Volume {nasuni.audit.file.volume} : {event.action}",
+    "conditions": [
+      {
+        "field": "event.action"
+      },
+      {
+        "field": "nasuni.audit.file.volume"
+      }
+    ]
+  },
+  {
     "value": "Action : {event.action} perfomed by {user.name}",
     "conditions": [
       {

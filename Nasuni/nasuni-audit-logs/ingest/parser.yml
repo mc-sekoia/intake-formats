@@ -10,6 +10,25 @@ pipeline:
       properties:
         input_field: '{{original.message}}'
         output_field: message
+  - name: parsed_event
+    description: Syslog messages handling
+    filter: '{{not original.message.startswith(''{'')}}'
+    external:
+      name: grok.match
+      properties:
+        input_field: '{{original.message}}'
+        output_field: message
+        pattern: (%{ACTION_MESSAGES1}|%{ACTION_MESSAGES2}|%{ACTION_MESSAGES3})
+        custom_patterns:
+          ACTION: (Updated|Antivirus scan skipped|has gone offline|Snapshot completed)
+          ACTION_MESSAGES1: >-
+            (The )?%{ACTION:event_type} for (volume
+            (?<volume>[^:]+), version %{INT:version}|volume
+            (?<volume>[^:]+)|(?<ressource>[^:]+))(: %{GREEDYDATA:reason}|\.)
+          ACTION_MESSAGES2: >-
+            %{ACTION:event_type} the (?<ressource>[^:]+)(:
+            %{GREEDYDATA:reason}|\.)
+          ACTION_MESSAGES3: Filer named (?<filer>[^:]+) %{ACTION:event_type}%{GREEDYDATA}
   - name: parsed_date
     external:
       name: date.parse
@@ -23,6 +42,7 @@ pipeline:
   - name: ecs_user_mapping
   - name: ecs_source_mapping
   - name: ecs_file_mapping
+    filter: '{{not "USER" in final.event.action}}'
   - name: ecs_process_mapping
   - name: ecs_network_mapping
   - name: custom_field_mapping
@@ -51,6 +71,7 @@ stages:
       - set:
           event.code: '{{parsed_event.message.flags}}'
           event.action: '{{parsed_event.message.event_type.replace("AUDIT_","")}}'
+          event.reason: '{{parsed_event.message.reason}}'
           event.sequence: '{{parsed_event.message.sequence}}'
       - set:
           event.severity: '{{original.log.syslog.severity.code}}'
@@ -63,11 +84,14 @@ stages:
     actions:
       - set:
           user.id: '{{parsed_event.message.sid}}'
-          user.name: '{{parsed_event.message.name or parsed_event.message.username}}'
+          user.name: '{{parsed_event.message.username or parsed_event.message.name}}'
           user.group.name: '{{parsed_event.message.groupname}}'
       - set:
           user.domain: '{{final.user.name.split(''@'')[1]}}'
         filter: '{{final.user.name is defined and ''@'' in final.user.name}}'
+      - set:
+          user.group.id: '{{parsed_event.message.gid}}'
+        filter: '{{"USER" in final.event.action}}'
   ecs_source_mapping:
     actions:
       - set:
@@ -78,6 +102,8 @@ stages:
         filter: '{{parsed_event.message.ipaddr| is_ipaddress}}'
       - set:
           source.user.name: '{{final.user.name}}'
+          source.user.group.id: '{{final.user.group.id}}'
+          source.user.id: '{{final.user.id}}'
       - set:
           source.user.domain: '{{final.source.user.name.split(''@'')[1]}}'
         filter: >-
@@ -108,6 +134,7 @@ stages:
           AUDIT_PROTO_FTP: FTP
           AUDIT_PROTO_NFS: NFS
           AUDIT_PROTO_CIFS: CIFS
+          AUDIT_PROTO_WEBACCESS: WEBACCESS
         mapping:
           parsed_event.message.proto: network.protocol
         name: translate
@@ -123,10 +150,10 @@ stages:
           nasuni.audit.file.old_path: '{{parsed_event.message.path}}'
         filter: '{{parsed_event.message.newpath is defined and parsed_event.message.newpath != None}}'
       - set:
-          nasuni.audit.request.type: '{{parsed_event.message.event_type}}'
           nasuni.audit.request.lenght: '{{parsed_event.message.lenght}}'
           nasuni.audit.request.offset: '{{parsed_event.message.offset}}'
           nasuni.audit.request.protocol: '{{parsed_event.message.proto}}'
+          nasuni.audit.request.operation: '{{parsed_event.message.operation}}'
       - set:
           nasuni.audit.ressource.name: '{{parsed_event.message.ressource}}'
   ecs_kind_categorization:
@@ -192,7 +219,7 @@ stages:
           {{'change' not in final.event.type and 'access' not in
           final.event.type and 'file' in final.event.category and 
           (final.event.action in
-          ["RENAME","WRITE","SYMLINK","LINK","CHMOD","CHOWN","TRUNCATE",
+          ["RENAME","SYMLINK","LINK","CHMOD","CHOWN","TRUNCATE",
           "FSYNC","FLUSH","RELEASE","RELEASEDIR","SETXATTR","REMOVEXATTR","SHARED_LINK_DELETE",
           "SHARED_LINK_MODIFY","SHARED_LINK_CREATE","SHARED_LINK_REGEN"])}}
       - set:
@@ -201,7 +228,7 @@ stages:
           {{'creation' not in final.event.type and 'change' not in
           final.event.type and 'access' not in final.event.type and 'file' in
           final.event.category and  (final.event.action in
-          ["MKNOD","MKDIR","RESTORE"])}}
+          ["MKNOD","MKDIR","RESTORE","WRITE"])}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''deletion'']}}'
         filter: >-
@@ -216,7 +243,7 @@ stages:
     actions:
       - set:
           event.outcome: success
-        filter: '{{not parsed_event.message.result}}'
+        filter: '{{parsed_event.message.result == 0}}'
       - set:
           event.outcome: failure
-        filter: '{{parsed_event.message.result}}'
+        filter: '{{not parsed_event.message.result == 0}}'
