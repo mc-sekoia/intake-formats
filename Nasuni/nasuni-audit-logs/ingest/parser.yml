@@ -52,6 +52,7 @@ pipeline:
   - name: ecs_authentication_categorization
   - name: ecs_file_categorization
   - name: ecs_outcome_categorization
+    filter: '{{not final.event.type == "info"}}'
 stages:
   ecs_observer_mapping:
     actions:

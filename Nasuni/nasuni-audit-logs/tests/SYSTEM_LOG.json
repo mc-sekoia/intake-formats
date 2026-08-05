@@ -14,7 +14,6 @@
       "action": "Snapshot completed",
       "category": "host",
       "kind": "event",
-      "outcome": "failure",
       "reason": "19 objects succeeded, 0 objects failed, 0 objects skipped.",
       "type": "info"
     },
