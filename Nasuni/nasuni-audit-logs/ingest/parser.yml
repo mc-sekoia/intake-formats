@@ -175,23 +175,18 @@ stages:
       - set:
           event.category: '{{(final.event.category|default([])) + [''authentication'']}}'
         filter: >-
-          {{'login' in final.event.action|lower or 'logon' in
-          final.event.action|lower or 'authentication' in
-          final.event.action|lower or 'logout' in final.event.action|lower or 
-          'logoff' in final.event.action|lower}}
+          {{'LOGIN' in final.event.action or 'LOGOUT' in final.event.action}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''end'']}}'
         filter: >-
           {{'end' not in final.event.type and 'authentication' in
-          final.event.category and ('logout' in final.event.action|lower or 
-          'logoff' in final.event.action|lower)}}
+          final.event.category and 'LOGOUT' in final.event.action}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''start'']}}'
         filter: >-
           {{'start' not in final.event.type and 'authentication' in
-          final.event.category and 'end' not in final.event.type and ('login' in
-          final.event.action|lower or 'logon' in final.event.action|lower or
-          final.event.action|lower == 'user authentication')}}
+          final.event.category and 'end' not in final.event.type and 'LOGIN' in
+          final.event.action}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''info'']}}'
         filter: >-
