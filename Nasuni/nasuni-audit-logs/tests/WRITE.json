@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_WRITE\", \"sequence\": 9691399, \"pid\": 612231, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"file_size\": 301666, \"uid\": 2004648, \"is_dir\": false, \"operation\": \"UPLOAD\", \"size\": null, \"timestamp\": 1785239974.476986, \"proto\": \"AUDIT_PROTO_WEBACCESS\", \"ipaddr\": \"192.168.1.2\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-111111111-111111111-11111111-11111111\", \"tid\": 0, \"username\": \"GROUPE\\\\toto\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"11111111-aaaa-aaaa-aaaa-111111111\", \"offset\": 0, \"path\": \"/PATH/TO/FILE/FILE.pdf\", \"newpath\": null, \"shared_link_key\": \"\", \"resource\": \"AAAAAAAA\", \"name\": null, \"trace_id\": \"AAAAAAAA\", \"length\": 0, \"flags\": null, \"mode\": null}",
     "sekoiaio": {
       "intake": {
         "dialect": "Nasuni Audit Logs",
         "dialect_uuid": "1646972c-7cae-410c-95e3-c79c6844d190"
       }
-    },
-    "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_WRITE\", \"sequence\": 9691399, \"pid\": 612231, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"file_size\": 301666, \"uid\": 2004648, \"is_dir\": false, \"operation\": \"UPLOAD\", \"size\": null, \"timestamp\": 1785239974.476986, \"proto\": \"AUDIT_PROTO_WEBACCESS\", \"ipaddr\": \"192.168.1.2\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-111111111-111111111-11111111-11111111\", \"tid\": 0, \"username\": \"GROUPE\\\\toto\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"11111111-aaaa-aaaa-aaaa-111111111\", \"offset\": 0, \"path\": \"/PATH/TO/FILE/FILE.pdf\", \"newpath\": null, \"shared_link_key\": \"\", \"resource\": \"AAAAAAAA\", \"name\": null, \"trace_id\": \"AAAAAAAA\", \"length\": 0, \"flags\": null, \"mode\": null}"
+    }
   },
   "expected": {
     "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_WRITE\", \"sequence\": 9691399, \"pid\": 612231, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"file_size\": 301666, \"uid\": 2004648, \"is_dir\": false, \"operation\": \"UPLOAD\", \"size\": null, \"timestamp\": 1785239974.476986, \"proto\": \"AUDIT_PROTO_WEBACCESS\", \"ipaddr\": \"192.168.1.2\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-111111111-111111111-11111111-11111111\", \"tid\": 0, \"username\": \"GROUPE\\\\toto\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"11111111-aaaa-aaaa-aaaa-111111111\", \"offset\": 0, \"path\": \"/PATH/TO/FILE/FILE.pdf\", \"newpath\": null, \"shared_link_key\": \"\", \"resource\": \"AAAAAAAA\", \"name\": null, \"trace_id\": \"AAAAAAAA\", \"length\": 0, \"flags\": null, \"mode\": null}",

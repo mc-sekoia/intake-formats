@@ -1,11 +1,5 @@
 {
   "input": {
-    "sekoiaio": {
-      "intake": {
-        "dialect": "Nasuni Audit Logs",
-        "dialect_uuid": "1646972c-7cae-410c-95e3-c79c6844d190"
-      }
-    },
     "message": "{\"to_gid\": null, \"event_type\": \"AUDIT_RENAME\", \"sequence\": 225176, \"pid\": 4186593, \"groupname\": \"GROUPE\\\\utilisa. du domaine\", \"result\": 0, \"uid\": 1631542, \"is_dir\": false, \"size\": null, \"timestamp\": 1785104188.2978177, \"proto\": \"AUDIT_PROTO_CIFS\", \"ipaddr\": \"192.168.1.2\", \"ts\": null, \"to\": null, \"gid\": 400513, \"filesize\": null, \"to_uid\": null, \"sid\": \"S-1-5-21-111111111-111111111-11111111-11111111\", \"tid\": 4186593, \"name\": \"tata\", \"path_timestamp\": 0.0, \"datasync\": null, \"volume\": \"aaaaaa-aaaa-aaaa-aaaa-aaaaaaaa\", \"offset\": null, \"path\": \"/PATH/TO/FILE/FILE.pdf\", \"newpath\": \"/PATH/TO/FILE/FILE2.pdf\", \"shared_link_key\": null, \"resource\": \"UE1674\", \"name\": null, \"length\": null, \"flags\": null, \"mode\": null}\n",
     "log": {
       "hostname": "nasuni-host",
@@ -20,6 +14,12 @@
           "code": 6,
           "name": "info"
         }
+      }
+    },
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Nasuni Audit Logs",
+        "dialect_uuid": "1646972c-7cae-410c-95e3-c79c6844d190"
       }
     }
   },
