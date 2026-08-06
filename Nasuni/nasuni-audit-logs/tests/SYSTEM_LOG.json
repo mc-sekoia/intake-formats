@@ -1,6 +1,6 @@
 {
   "input": {
-    "message": "Snapshot completed for volume FR-CCO-SMALO, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped.",
+    "message": "Snapshot completed for volume VOLUME-NAME, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped.",
     "sekoiaio": {
       "intake": {
         "dialect": "Nasuni Audit Logs",
@@ -9,7 +9,7 @@
     }
   },
   "expected": {
-    "message": "Snapshot completed for volume FR-CCO-SMALO, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped.",
+    "message": "Snapshot completed for volume VOLUME-NAME, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped.",
     "event": {
       "action": "Snapshot completed",
       "category": "host",
@@ -18,12 +18,12 @@
       "type": "info"
     },
     "log": {
-      "description": "Snapshot completed for volume FR-CCO-SMALO, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped."
+      "description": "Snapshot completed for volume VOLUME-NAME, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped."
     },
     "nasuni": {
       "audit": {
         "file": {
-          "volume": "FR-CCO-SMALO"
+          "volume": "VOLUME-NAME"
         }
       }
     }
