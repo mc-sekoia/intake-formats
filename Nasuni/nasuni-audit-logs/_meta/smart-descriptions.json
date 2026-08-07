@@ -2844,13 +2844,6 @@
         "field": "event.type",
         "value": "start"
       }
-    ],
-    "relationships": [
-      {
-        "source": "user.name",
-        "target": "file.name",
-        "type": "removed"
-      }
     ]
   },
   {
