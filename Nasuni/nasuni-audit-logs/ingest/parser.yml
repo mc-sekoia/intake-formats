@@ -23,8 +23,8 @@ pipeline:
           ACTION: (Updated|Antivirus scan skipped|has gone offline|Snapshot completed)
           ACTION_MESSAGES1: >-
             (The )?%{ACTION:event_type} for (volume
-            (?<volume>[^:]+), version %{INT:version}|volume
-            (?<volume>[^:]+)|(?<ressource>[^:]+))(: %{GREEDYDATA:reason}|\.)
+            (?<volume_name>[^:]+), version %{INT:version}|volume
+            (?<volume_name>[^:]+)|(?<ressource>[^:]+))(: %{GREEDYDATA:reason}|\.)
           ACTION_MESSAGES2: >-
             %{ACTION:event_type} the (?<ressource>[^:]+)(:
             %{GREEDYDATA:reason}|\.)
@@ -45,6 +45,7 @@ pipeline:
     filter: '{{not "USER" in final.event.action}}'
   - name: ecs_process_mapping
   - name: ecs_network_mapping
+  - name: ecs_volume_mapping
   - name: custom_field_mapping
   - name: ecs_kind_categorization
   - name: ecs_host_categorization
@@ -118,12 +119,17 @@ stages:
           file.size: '{{parsed_event.message.filesize}}'
           file.mtime: '{{parsed_event.message.ts}}'
           file.target_path: '{{parsed_event.message.to}}'
-      - set:
-          file.path: '{{parsed_event.message.newpath}}'
-        filter: '{{parsed_event.message.newpath is defined}}'
-      - set:
+          file.owner.id: '{{parsed_event.message.to_uid}}'
           file.path: '{{parsed_event.message.path}}'
-        filter: '{{final.file.path is not defined}}'
+      - set: 
+          file.changes.path: '{{parsed_event.message.newpath}}'
+          file.changes.name: '{{parsed_event.message.newpath.split("/")[-1]}}'
+      - set:
+          file.type: 'file'
+        filter: '{{parsed_event.message.is_dir == false}}'
+      - set:
+          file.type: 'dir'
+        filter: '{{parsed_event.message.is_dir == true}}'
   ecs_process_mapping:
     actions:
       - set:
@@ -139,22 +145,22 @@ stages:
         mapping:
           parsed_event.message.proto: network.protocol
         name: translate
+  ecs_volume_mapping:
+    actions:
+      - set: 
+          volume.id: '{{parsed_event.message.volume}}'
+          volume.name: '{{parsed_event.message.volume_name}}'
   custom_field_mapping:
     actions:
       - set:
-          nasuni.audit.file.is_dir: '{{parsed_event.message.is_dir}}'
-          nasuni.audit.file.volume: '{{parsed_event.message.volume}}'
           nasuni.audit.file.datasync: '{{parsed_event.message.datasync}}'
           nasuni.audit.file.shared_link_key: '{{parsed_event.message.shared_link_key}}'
       - set:
-          nasuni.audit.file.new_path: '{{parsed_event.message.newpath}}'
-          nasuni.audit.file.old_path: '{{parsed_event.message.path}}'
-        filter: '{{parsed_event.message.newpath is defined and parsed_event.message.newpath != None}}'
-      - set:
-          nasuni.audit.request.lenght: '{{parsed_event.message.lenght}}'
+          nasuni.audit.request.length: '{{parsed_event.message.length}}'
           nasuni.audit.request.offset: '{{parsed_event.message.offset}}'
           nasuni.audit.request.protocol: '{{parsed_event.message.proto}}'
           nasuni.audit.request.operation: '{{parsed_event.message.operation}}'
+          nasuni.audit.request.result: '{{parsed_event.message.result}}'
       - set:
           nasuni.audit.ressource.name: '{{parsed_event.message.ressource}}'
   ecs_kind_categorization:

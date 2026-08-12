@@ -20,12 +20,8 @@
     "log": {
       "description": "Snapshot completed for volume VOLUME-NAME, version 55689: 19 objects succeeded, 0 objects failed, 0 objects skipped."
     },
-    "nasuni": {
-      "audit": {
-        "file": {
-          "volume": "VOLUME-NAME"
-        }
-      }
+    "volume": {
+      "name": "VOLUME-NAME"
     }
   }
 }

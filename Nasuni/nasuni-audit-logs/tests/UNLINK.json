@@ -27,16 +27,14 @@
       "directory": "/PATH/TO/FILE",
       "gid": "400513",
       "name": "FILE.pdf",
-      "path": "/PATH/TO/FILE/FILE.pdf"
+      "path": "/PATH/TO/FILE/FILE.pdf",
+      "type": "file"
     },
     "nasuni": {
       "audit": {
-        "file": {
-          "is_dir": false,
-          "volume": "aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa"
-        },
         "request": {
-          "protocol": "AUDIT_PROTO_CIFS"
+          "protocol": "AUDIT_PROTO_CIFS",
+          "result": 0
         }
       }
     },
@@ -66,6 +64,9 @@
         "name": "GROUPE\\utilisa. du domaine"
       },
       "id": "S-1-5-21-111111111-111111111-11111111-11111111"
+    },
+    "volume": {
+      "id": "aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa"
     }
   }
 }

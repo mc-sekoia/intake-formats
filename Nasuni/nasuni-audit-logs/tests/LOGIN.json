@@ -25,12 +25,10 @@
     "@timestamp": "2026-07-31T08:34:28.733197Z",
     "nasuni": {
       "audit": {
-        "file": {
-          "is_dir": false
-        },
         "request": {
           "operation": "LOGIN",
-          "protocol": "AUDIT_PROTO_WEBACCESS"
+          "protocol": "AUDIT_PROTO_WEBACCESS",
+          "result": 0
         }
       }
     },

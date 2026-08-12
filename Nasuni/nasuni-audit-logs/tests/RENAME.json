@@ -40,10 +40,15 @@
     },
     "@timestamp": "2026-07-26T22:16:28.297818Z",
     "file": {
+      "changes": {
+        "name": "FILE2.pdf",
+        "path": "/PATH/TO/FILE/FILE2.pdf"
+      },
       "directory": "/PATH/TO/FILE",
       "gid": "400513",
-      "name": "FILE2.pdf",
-      "path": "/PATH/TO/FILE/FILE2.pdf"
+      "name": "FILE.pdf",
+      "path": "/PATH/TO/FILE/FILE.pdf",
+      "type": "file"
     },
     "log": {
       "hostname": "nasuni-host",
@@ -62,14 +67,9 @@
     },
     "nasuni": {
       "audit": {
-        "file": {
-          "is_dir": false,
-          "new_path": "/PATH/TO/FILE/FILE2.pdf",
-          "old_path": "/PATH/TO/FILE/FILE.pdf",
-          "volume": "aaaaaa-aaaa-aaaa-aaaa-aaaaaaaa"
-        },
         "request": {
-          "protocol": "AUDIT_PROTO_CIFS"
+          "protocol": "AUDIT_PROTO_CIFS",
+          "result": 0
         }
       }
     },
@@ -107,6 +107,9 @@
         "name": "GROUPE\\utilisa. du domaine"
       },
       "id": "S-1-5-21-111111111-111111111-11111111-11111111"
+    },
+    "volume": {
+      "id": "aaaaaa-aaaa-aaaa-aaaa-aaaaaaaa"
     }
   }
 }
