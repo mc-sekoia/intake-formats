@@ -1,6 +1,6 @@
 [
   {
-    "value": "{aruba.mobility_controller.access_point.name} access point startup",
+    "value": "{aruba.mobility_controller.access_point.name} access point {event.action}",
     "conditions": [
       {
         "field": "aruba.mobility_controller.access_point.name"
@@ -12,6 +12,9 @@
       {
         "field": "event.type",
         "value": "start"
+      },
+      {
+        "field": "event.action"
       }
     ]
   },
@@ -119,6 +122,33 @@
       },
       {
         "field": "aruba.mobility_controller.access_point.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ]
+  },
+  {
+    "value": "Station {source.mac} authentication failed to {aruba.mobility_controller.access_point.name} access point",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "start"
+      },
+      {
+        "field": "source.mac"
+      },
+      {
+        "field": "aruba.mobility_controller.access_point.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
       }
     ]
   },
@@ -135,6 +165,46 @@
       },
       {
         "field": "source.mac"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ]
+  },
+  {
+    "value": "Station {source.mac} deauthenticated",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "end"
+      },
+      {
+        "field": "source.mac"
+      }
+    ]
+  },
+  {
+    "value": "Station {source.mac} authentication failed",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "start"
+      },
+      {
+        "field": "source.mac"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
       }
     ]
   },
@@ -256,7 +326,7 @@
     ]
   },
   {
-    "value": "Station {source.mac} - {event.action} - on {aruba.mobility_controller.bssid} bssid",
+    "value": "Station {source.mac} - {event.action} - on bssid : {aruba.mobility_controller.bssid}",
     "conditions": [
       {
         "field": "event.type",
@@ -270,6 +340,79 @@
       },
       {
         "field": "aruba.mobility_controller.bssid"
+      }
+    ]
+  },
+  {
+    "value": "{observer.hostname} rotated {file.path} log file",
+    "conditions": [
+      {
+        "field": "event.type",
+        "value": "info"
+      },
+      {
+        "field": "observer.hostname"
+      },
+      {
+        "field": "event.action",
+        "value": "trace_rotate_file"
+      },
+      {
+        "field": "file.path"
+      }
+    ]
+  },
+  {
+    "value": "{observer.hostname} started logging to {file.path} file",
+    "conditions": [
+      {
+        "field": "event.type",
+        "value": "info"
+      },
+      {
+        "field": "observer.hostname"
+      },
+      {
+        "field": "event.action",
+        "value": "trace_on"
+      },
+      {
+        "field": "file.path"
+      }
+    ]
+  },
+  {
+    "value": "{observer.hostname} Selected server {aruba.mobility_controller.authentication.server} for authentication method : {aruba.mobility_controller.authentication.method}",
+    "conditions": [
+      {
+        "field": "log.description"
+      },
+      {
+        "field": "event.action",
+        "value": "Selected server"
+      },
+      {
+        "field": "aruba.mobility_controller.authentication.server"
+      },
+      {
+        "field": "aruba.mobility_controller.authentication.method"
+      },
+      {
+        "field": "observer.hostname"
+      }
+    ]
+  },
+  {
+    "value": "{observer.hostname} system log : {event.action} ",
+    "conditions": [
+      {
+        "field": "log.description"
+      },
+      {
+        "field": "event.action"
+      },
+      {
+        "field": "observer.hostname"
       }
     ]
   },
