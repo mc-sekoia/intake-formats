@@ -125,6 +125,8 @@ pipeline:
             MAC\\?=%{NOTSPACE:station_mac} (?<action>Station authenticate\(start\)): method\\?=%{NOTCOMMA:authentication_method}, role\\?=%{NOTCOMMA}, VLAN\\?=%{NOTCOMMA:vlan_id}, Derivation\\?=%{NOTCOMMA}, Value Pair\\?=%{NOTCOMMA}, flags\\?=%{NOTCOMMA}(, Profile\\?=%{NOTSPACE})
           '522049': >-
             MAC\\?=%{NOTCOMMA:station_mac},IP\\?=(%{IP:source_ip}|N/A) (?<action>User role updated), existing Role\\?=%{DATA:user_role}, new Role\\?=%{DATA:user_new_role}, reason\\?=%{GREEDYDATA:reason}
+          '522050': >-
+            MAC\\?=%{NOTCOMMA:station_mac},IP\\?=(%{IP:source_ip}|N/A) (?<action>User data downloaded to datapath), new Role\\?=%{DATA:user_new_role}, bw Contract\\?=%{DATA}, reason\\?=%{GREEDYDATA:reason}
           '522051': >-
             MAC\\?=%{NOTSPACE:station_mac} (?<action>Clear Bridge Entry)
           '522157': >-
@@ -274,11 +276,11 @@ stages:
       - set:
           event.category: '{{(final.event.category|default([])) + [''authentication'']}}'
         filter: >-
-          {{final.process.name == 'authmgr' or 'login' in final.event.action|lower or 'logon' in
+          {{(final.process.name == 'authmgr' or 'login' in final.event.action|lower or 'logon' in
           final.event.action|lower or 'authentication' in
           final.event.action|lower or 'authenticate' in
           final.event.action|lower or 'logout' in final.event.action|lower or 
-          'logoff' in final.event.action|lower or 'logged out' in final.event.action|lower or 'logged in' in final.event.action|lower or 'deauth' in final.event.action|lower or 'radius' in final.event.action|lower or 'tacacs' in final.event.action|lower or 'dot1x' in final.event.action|lower or 'ldap' in final.event.action|lower}}
+          'logoff' in final.event.action|lower or 'logged out' in final.event.action|lower or 'logged in' in final.event.action|lower or 'deauth' in final.event.action|lower or 'radius' in final.event.action|lower or 'tacacs' in final.event.action|lower or 'dot1x' in final.event.action|lower or 'ldap' in final.event.action|lower) and not final.event.action in ["trace_rotate_file","trace_on"]}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''end'']}}'
         filter: >-
@@ -308,7 +310,7 @@ stages:
           event.type: '{{(final.event.type|default([])) + [''change'']}}'
         filter: >-
           {{'change' not in final.event.type and 'host' in
-          final.event.category and ('upgrading' in final.log.description|lower or 'change' in final.log.description|lower)}}
+          final.event.category and ('upgrading' in final.log.description|lower or ('change' in final.log.description|lower and not 'no change' in final.log.description|lower))}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''end'']}}'
         filter: >-
