@@ -42,7 +42,7 @@
       {
         "field": "user.name"
       },
-{
+      {
         "field": "event.outcome",
         "value": "failure"
       },
@@ -1414,7 +1414,8 @@
         "type": "removal"
       }
     ]
-  },{
+  },
+  {
     "value": "Directory {file.name} has been accessed by {user.name}",
     "conditions": [
       {
@@ -1457,7 +1458,7 @@
       {
         "field": "user.name"
       },
-{
+      {
         "field": "event.outcome",
         "value": "failure"
       },
@@ -2925,22 +2926,14 @@
     ]
   },
   {
-    "value": "Action : {event.action} perfomed by {user.name}",
-    "conditions": [
-      {
-        "field": "event.action"
-      },
-      {
-        "field": "user.name"
-      }
-    ]
-  },
-  {
-    "value": "System {event.action}",
+    "value": "System {event.action} initiated by {user.name}",
     "conditions": [
       {
         "field": "event.action",
         "value": "STARTUP"
+      },
+      {
+        "field": "user.name"
       }
     ]
   },
@@ -2950,6 +2943,20 @@
       {
         "field": "event.action",
         "value": "LOST_EVENT"
+      },
+      {
+        "field": "nasuni.audit.request.protocol"
+      }
+    ]
+  },
+  {
+    "value": "Action : {event.action} perfomed by {user.name}",
+    "conditions": [
+      {
+        "field": "event.action"
+      },
+      {
+        "field": "user.name"
       }
     ]
   },

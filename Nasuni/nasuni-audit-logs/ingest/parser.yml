@@ -48,7 +48,7 @@ pipeline:
   - name: custom_field_mapping
   - name: ecs_kind_categorization
   - name: ecs_host_categorization
-    filter: '{{not original.message.startswith(''{'')}}'
+    filter: '{{not original.message.startswith(''{'') or final.event.action == "STARTUP" or final.event.action == "LOST_EVENT"}}'
   - name: ecs_authentication_categorization
   - name: ecs_file_categorization
   - name: ecs_outcome_categorization
@@ -197,7 +197,9 @@ stages:
     actions:
       - set:
           event.category: '{{(final.event.category|default([])) + [''file'']}}'
-        filter: '{{final.event.category is not defined or final.file is defined}}'
+        filter: >-
+          {{final.event.category is not defined or (final.file is defined and
+          not final.event.category == "host")}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''access'']}}'
         filter: >-
