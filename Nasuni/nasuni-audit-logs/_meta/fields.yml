@@ -9,10 +9,6 @@ file.changes.path:
   name: file.changes.path
   type: keyword
 
-file.owner.id:
-  description: The user ID (UID) or security identifier (SID) of the file owner.
-  name: file.owner.id
-  type: keyword
 
 nasuni.audit.file.datasync:
   description: Datasync (no metadata) if true or full fsync if false.
@@ -25,10 +21,20 @@ nasuni.audit.file.shared_link_key:
   name: nasuni.audit.file.shared_link_key
   type: keyword
 
+nasuni.audit.file.owner.id:
+  description: The uid of the file's owner.
+  name: nasuni.audit.file.owner.id
+  type: keyword
+
+nasuni.audit.file.changes.owner.id:
+  description: The uid that the file has been chowned to.
+  name: nasuni.audit.file.changes.owner.id
+  type: keyword
+
 nasuni.audit.request.length:
   description: The client requested length of a read or write
   name: nasuni.audit.request.length
-  type: integer
+  type: long
 
 nasuni.audit.request.offset:
   description: The offset from the start of the file that the read or write used
@@ -48,7 +54,7 @@ nasuni.audit.request.protocol:
 nasuni.audit.request.result:
   description: Result of the operation.
   name: nasuni.audit.request.result
-  type: integer
+  type: long
 
 nasuni.audit.ressource.name:
   description: Name of the share or export that the client used

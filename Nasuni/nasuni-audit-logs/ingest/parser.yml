@@ -119,7 +119,6 @@ stages:
           file.size: '{{parsed_event.message.filesize}}'
           file.mtime: '{{parsed_event.message.ts}}'
           file.target_path: '{{parsed_event.message.to}}'
-          file.owner.id: '{{parsed_event.message.to_uid}}'
           file.path: '{{parsed_event.message.path}}'
       - set: 
           file.changes.path: '{{parsed_event.message.newpath}}'
@@ -155,6 +154,7 @@ stages:
       - set:
           nasuni.audit.file.datasync: '{{parsed_event.message.datasync}}'
           nasuni.audit.file.shared_link_key: '{{parsed_event.message.shared_link_key}}'
+          nasuni.audit.file.changes.owner.id: '{{parsed_event.message.to_uid}}'
       - set:
           nasuni.audit.request.length: '{{parsed_event.message.length}}'
           nasuni.audit.request.offset: '{{parsed_event.message.offset}}'
@@ -246,8 +246,8 @@ stages:
   ecs_outcome_categorization:
     actions:
       - set:
-          event.outcome: success
-        filter: '{{parsed_event.message.result == 0}}'
-      - set:
           event.outcome: failure
-        filter: '{{not parsed_event.message.result == 0}}'
+        filter: '{{"fail" in final.event.action and not final.event.type == "info"}}'
+      - set:
+          event.outcome: success
+        filter: '{{not final.event.outcome is defined and not final.event.type == "info"}}'
