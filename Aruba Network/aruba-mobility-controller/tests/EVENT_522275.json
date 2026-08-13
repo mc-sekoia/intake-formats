@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|MM|95415|log|SystemEvent|4|deviceProcessName=authmgr dvcpid=5816 dvchost=HOSTNAME_01 msg=<522275> <5816> <WARN> \\|authmgr\\|  User Authentication failed. username\\=user-111111aaaaa userip\\=0.0.0.0 usermac\\=00:00:00:00:00:00 authmethod\\=tacacs-accounting servername\\=AUTH_SERVER01 serverip\\=192.168.1.2 apname\\= bssid\\=00:00:00:00:00:00",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|MM|95415|log|SystemEvent|4|deviceProcessName=authmgr dvcpid=5816 dvchost=HOSTNAME_01 msg=<522275> <5816> <WARN> \\|authmgr\\|  User Authentication failed. username\\=user-111111aaaaa userip\\=0.0.0.0 usermac\\=00:00:00:00:00:00 authmethod\\=tacacs-accounting servername\\=AUTH_SERVER01 serverip\\=192.168.1.2 apname\\= bssid\\=00:00:00:00:00:00"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|MM|95415|log|SystemEvent|4|deviceProcessName=authmgr dvcpid=5816 dvchost=HOSTNAME_01 msg=<522275> <5816> <WARN> \\|authmgr\\|  User Authentication failed. username\\=user-111111aaaaa userip\\=0.0.0.0 usermac\\=00:00:00:00:00:00 authmethod\\=tacacs-accounting servername\\=AUTH_SERVER01 serverip\\=192.168.1.2 apname\\= bssid\\=00:00:00:00:00:00",

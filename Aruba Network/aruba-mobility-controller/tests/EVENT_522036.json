@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=<522036> <14114> <INFO> \\|authmgr\\|  MAC\\=a1:a1:a1:a1:a1:a1 Station DN: BSSID\\=a2:a2:a2:a2:a2:a2 ESSID\\=wifi_ssid VLAN\\=1 AP-name\\=AP_NAME_01 reason\\=68 at 14:21:47.782064",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=<522036> <14114> <INFO> \\|authmgr\\|  MAC\\=a1:a1:a1:a1:a1:a1 Station DN: BSSID\\=a2:a2:a2:a2:a2:a2 ESSID\\=wifi_ssid VLAN\\=1 AP-name\\=AP_NAME_01 reason\\=68 at 14:21:47.782064"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=<522036> <14114> <INFO> \\|authmgr\\|  MAC\\=a1:a1:a1:a1:a1:a1 Station DN: BSSID\\=a2:a2:a2:a2:a2:a2 ESSID\\=wifi_ssid VLAN\\=1 AP-name\\=AP_NAME_01 reason\\=68 at 14:21:47.782064",

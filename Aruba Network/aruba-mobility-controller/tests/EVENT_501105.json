@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|5|deviceProcessName=stm dvcpid=12604 dvchost=HOSTNAME_01 msg=<501105> <12604> <NOTI> \\|stm\\|  Deauth from sta: a1:a1:a1:a1:a1:a1: AP 192.168.1.2-a2:a2:a2:a2:a2:a2-AP_NAME_01 Reason Sapcp Ageout (internal ageout)",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|5|deviceProcessName=stm dvcpid=12604 dvchost=HOSTNAME_01 msg=<501105> <12604> <NOTI> \\|stm\\|  Deauth from sta: a1:a1:a1:a1:a1:a1: AP 192.168.1.2-a2:a2:a2:a2:a2:a2-AP_NAME_01 Reason Sapcp Ageout (internal ageout)"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|5|deviceProcessName=stm dvcpid=12604 dvchost=HOSTNAME_01 msg=<501105> <12604> <NOTI> \\|stm\\|  Deauth from sta: a1:a1:a1:a1:a1:a1: AP 192.168.1.2-a2:a2:a2:a2:a2:a2-AP_NAME_01 Reason Sapcp Ageout (internal ageout)",

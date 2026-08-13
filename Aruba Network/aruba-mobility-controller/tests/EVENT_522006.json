@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOST-NAME-01 msg=<522006> <12582> <INFO> \\|authmgr\\|  MAC\\=00:00:00:00:00:00 IP\\=192.168.1.2 User entry added: reason\\=Secured AP",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOST-NAME-01 msg=<522006> <12582> <INFO> \\|authmgr\\|  MAC\\=00:00:00:00:00:00 IP\\=192.168.1.2 User entry added: reason\\=Secured AP"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOST-NAME-01 msg=<522006> <12582> <INFO> \\|authmgr\\|  MAC\\=00:00:00:00:00:00 IP\\=192.168.1.2 User entry added: reason\\=Secured AP",

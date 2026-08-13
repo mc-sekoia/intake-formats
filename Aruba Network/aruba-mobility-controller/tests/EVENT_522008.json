@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|5|deviceProcessName=authmgr dvcpid=12582 dvchost=HOST-NAME-01 msg=<522008> <14114> <NOTI> \\|authmgr\\|  User Authentication Successful: username\\=host/device-a1a1aaa1a1a.domain-a1a1aaa1a1a.example MAC\\=00:00:00:00:00:00 IP\\=192.168.1.2 role\\=ADMIN_Role VLAN\\=57 AP\\=AP_NAME_01 SSID\\=wifi_ssid AAA profile\\=wifi_ssid_aaa_prof auth method\\=802.1x auth server\\=AUTH_SERVER01",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|5|deviceProcessName=authmgr dvcpid=12582 dvchost=HOST-NAME-01 msg=<522008> <14114> <NOTI> \\|authmgr\\|  User Authentication Successful: username\\=host/device-a1a1aaa1a1a.domain-a1a1aaa1a1a.example MAC\\=00:00:00:00:00:00 IP\\=192.168.1.2 role\\=ADMIN_Role VLAN\\=57 AP\\=AP_NAME_01 SSID\\=wifi_ssid AAA profile\\=wifi_ssid_aaa_prof auth method\\=802.1x auth server\\=AUTH_SERVER01"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|5|deviceProcessName=authmgr dvcpid=12582 dvchost=HOST-NAME-01 msg=<522008> <14114> <NOTI> \\|authmgr\\|  User Authentication Successful: username\\=host/device-a1a1aaa1a1a.domain-a1a1aaa1a1a.example MAC\\=00:00:00:00:00:00 IP\\=192.168.1.2 role\\=ADMIN_Role VLAN\\=57 AP\\=AP_NAME_01 SSID\\=wifi_ssid AAA profile\\=wifi_ssid_aaa_prof auth method\\=802.1x auth server\\=AUTH_SERVER01",

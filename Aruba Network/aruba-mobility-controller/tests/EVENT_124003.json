@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=dot1x-proc:2 dvcpid=13220 dvchost=HOSTNAME_01 msg=<124003> <13220> <INFO> \\|dot1x-proc:2\\|  Result\\=Authentication failed(1), method\\=802.1x, server\\=AUTH_SERVER01, user\\=a1:a1:a1:a1:a1",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=dot1x-proc:2 dvcpid=13220 dvchost=HOSTNAME_01 msg=<124003> <13220> <INFO> \\|dot1x-proc:2\\|  Result\\=Authentication failed(1), method\\=802.1x, server\\=AUTH_SERVER01, user\\=a1:a1:a1:a1:a1"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=dot1x-proc:2 dvcpid=13220 dvchost=HOSTNAME_01 msg=<124003> <13220> <INFO> \\|dot1x-proc:2\\|  Result\\=Authentication failed(1), method\\=802.1x, server\\=AUTH_SERVER01, user\\=a1:a1:a1:a1:a1",

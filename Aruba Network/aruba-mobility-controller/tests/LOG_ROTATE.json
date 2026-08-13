@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=trace_rotate_file: rotating /var/log/trace/auth.log",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=trace_rotate_file: rotating /var/log/trace/auth.log"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=trace_rotate_file: rotating /var/log/trace/auth.log",

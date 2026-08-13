@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=webui dvcpid=12412 dvchost=HOST-NAME-01 msg=USER: user-01111aaaaaa has logged in from 192.168.1.2.",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=webui dvcpid=12412 dvchost=HOST-NAME-01 msg=USER: user-01111aaaaaa has logged in from 192.168.1.2."
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=webui dvcpid=12412 dvchost=HOST-NAME-01 msg=USER: user-01111aaaaaa has logged in from 192.168.1.2.",

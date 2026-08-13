@@ -1,12 +1,12 @@
 {
   "input": {
+    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=<522044> <12582> <INFO> \\|authmgr\\|  MAC\\=00:00:00:00:00:00 Station authenticate(start): method\\=802.1x, role\\=logon///logon, VLAN\\=1/1, Derivation\\=0/0, Value Pair\\=1, flags\\=0x8, Profile\\=wifi_ssid_aaa_prof",
     "sekoiaio": {
       "intake": {
         "dialect": "Aruba Mobility Controller",
         "dialect_uuid": "8f1e623e-72bf-46df-9715-74ac1f0e4ca9"
       }
-    },
-    "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=<522044> <12582> <INFO> \\|authmgr\\|  MAC\\=00:00:00:00:00:00 Station authenticate(start): method\\=802.1x, role\\=logon///logon, VLAN\\=1/1, Derivation\\=0/0, Value Pair\\=1, flags\\=0x8, Profile\\=wifi_ssid_aaa_prof"
+    }
   },
   "expected": {
     "message": "CEF:0|Aruba|A72xx|95415|log|SystemEvent|6|deviceProcessName=authmgr dvcpid=12582 dvchost=HOSTNAME_01 msg=<522044> <12582> <INFO> \\|authmgr\\|  MAC\\=00:00:00:00:00:00 Station authenticate(start): method\\=802.1x, role\\=logon///logon, VLAN\\=1/1, Derivation\\=0/0, Value Pair\\=1, flags\\=0x8, Profile\\=wifi_ssid_aaa_prof",
