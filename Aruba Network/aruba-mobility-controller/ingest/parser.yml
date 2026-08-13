@@ -247,12 +247,16 @@ stages:
     actions:
       - set:
           source.ip: '{{parsed_event.message.source_ip}}'
+        filter: '{{parsed_event.message.source_ip | is_ipaddress}}'
+      - set:
           source.mac: '{{parsed_event.message.station_mac}}'
           source.port: '{{parsed_event.message.source_port}}'
   ecs_destination_mapping:
     actions:
       - set:
           destination.ip: '{{parsed_event.message.destination_ip}}'
+        filter: '{{parsed_event.message.destination_ip | is_ipaddress}}'
+      - set: 
           destination.port: '{{parsed_event.message.destination_port}}'
   ecs_file_mapping:
     actions:
@@ -268,9 +272,11 @@ stages:
           aruba.mobility_controller.action: '{{parsed_event.message.action}}'
           aruba.mobility_controller.server.group: '{{parsed_event.message.server_group}}'
           aruba.mobility_controller.access_point.name: '{{parsed_event.message.ap_name}}'
-          aruba.mobility_controller.access_point.ip: '{{parsed_event.message.ap_ip}}'
           aruba.mobility_controller.authentication.method: '{{parsed_event.message.authentication_method}}'
           aruba.mobility_controller.authentication.server: '{{parsed_event.message.authentication_server}}'
+      - set:
+          aruba.mobility_controller.access_point.ip: '{{parsed_event.message.ap_ip}}'
+        filter: '{{parsed_event.message.ap_ip | is_ipaddress}}'
   ecs_authentication_categorization:
     actions:
       - set:
