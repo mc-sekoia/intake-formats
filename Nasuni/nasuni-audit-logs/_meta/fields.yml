@@ -56,9 +56,9 @@ nasuni.audit.request.result:
   name: nasuni.audit.request.result
   type: long
 
-nasuni.audit.ressource.name:
+nasuni.audit.resource.name:
   description: Name of the share or export that the client used
-  name: nasuni.audit.ressource.name
+  name: nasuni.audit.resource.name
   type: keyword
 
 volume.id:

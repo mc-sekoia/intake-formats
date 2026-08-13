@@ -24,9 +24,9 @@ pipeline:
           ACTION_MESSAGES1: >-
             (The )?%{ACTION:event_type} for (volume
             (?<volume_name>[^:]+), version %{INT:version}|volume
-            (?<volume_name>[^:]+)|(?<ressource>[^:]+))(: %{GREEDYDATA:reason}|\.)
+            (?<volume_name>[^:]+)|(?<resource>[^:]+))(: %{GREEDYDATA:reason}|\.)
           ACTION_MESSAGES2: >-
-            %{ACTION:event_type} the (?<ressource>[^:]+)(:
+            %{ACTION:event_type} the (?<resource>[^:]+)(:
             %{GREEDYDATA:reason}|\.)
           ACTION_MESSAGES3: Filer named (?<filer>[^:]+) %{ACTION:event_type}%{GREEDYDATA}
   - name: parsed_date
@@ -162,7 +162,7 @@ stages:
           nasuni.audit.request.operation: '{{parsed_event.message.operation}}'
           nasuni.audit.request.result: '{{parsed_event.message.result}}'
       - set:
-          nasuni.audit.ressource.name: '{{parsed_event.message.ressource}}'
+          nasuni.audit.resource.name: '{{parsed_event.message.resource}}'
   ecs_kind_categorization:
     actions:
       - set:
