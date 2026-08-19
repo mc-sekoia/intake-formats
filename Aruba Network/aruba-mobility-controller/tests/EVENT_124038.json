@@ -13,7 +13,7 @@
     "event": {
       "action": "Selected server",
       "category": [
-        "host"
+        "authentication"
       ],
       "code": "124038",
       "type": [
