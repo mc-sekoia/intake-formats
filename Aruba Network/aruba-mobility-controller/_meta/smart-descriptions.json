@@ -173,6 +173,30 @@
     ]
   },
   {
+    "value": "Station {source.mac} started authentication",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.code",
+        "value": "522044"
+      },
+      {
+        "field": "event.type",
+        "value": "start"
+      },
+      {
+        "field": "source.mac"
+      },
+      {
+        "field": "event.outcome",
+        "value": "unknown"
+      }
+    ]
+  },
+  {
     "value": "Station {source.mac} deauthenticated",
     "conditions": [
       {

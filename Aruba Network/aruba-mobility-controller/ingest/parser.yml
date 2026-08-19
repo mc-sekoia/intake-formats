@@ -513,6 +513,10 @@ stages:
           parsed_event.message.result|lower)}}
         name: set
       - set:
+          event.outcome: unknown
+        filter: >-
+          {{final.event.code in ['522044']}}
+      - set:
           event.outcome: success
         filter: >-
           {{final.event.type != ['info'] and (('success' in
