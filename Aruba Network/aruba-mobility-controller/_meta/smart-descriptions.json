@@ -403,6 +403,27 @@
     ]
   },
   {
+    "value": "Vlan {network.vlan.id} assigned to station {source.mac}",
+    "conditions": [
+      {
+        "field": "log.description"
+      },
+      {
+        "field": "event.code",
+        "value": "501218"
+      },
+      {
+        "field": "network.vlan.id"
+      },
+      {
+        "field": "source.mac"
+      },
+      {
+        "field": "observer.hostname"
+      }
+    ]
+  },
+  {
     "value": "{observer.hostname} system log : {event.action} ",
     "conditions": [
       {
