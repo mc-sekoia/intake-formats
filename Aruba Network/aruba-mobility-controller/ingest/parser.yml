@@ -21,7 +21,7 @@ pipeline:
       properties:
         input_field: '{{parsed_header.message.msg}}'
         output_field: message
-        pattern: (%{EVENT_CODE_MESSAGES}|%{PLAIN_TEXT_MESSSAGES})
+        pattern: (%{EVENT_CODE_MESSAGES}|%{EVENT_CODE_MESSAGES_PREFIX}%{EVENT_CODE_MESSAGES}|%{PLAIN_TEXT_MESSSAGES})
         custom_patterns:
           EVENT_CODE_MESSAGES: >-
             \<%{INT:error_number}\> \<%{INT:process_id}\>
@@ -29,6 +29,7 @@ pipeline:
             \\\|(?<process_name>[^\\\|]+)\\\|(
             \\\|(?<subprocess_name>[^\\\|]+)\\\|)?\s+%{GREEDYDATA:log_description}
           PLAIN_TEXT_MESSSAGES: '%{GREEDYDATA:log_description}'
+          EVENT_CODE_MESSAGES_PREFIX: '[0-9]\[[0-9]+\]\:\s'
   - name: parsed_event
     description: ''
     filter: '{{parsed_nested_message.message.error_number != None }}'
