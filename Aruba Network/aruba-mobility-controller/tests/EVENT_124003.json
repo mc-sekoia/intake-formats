@@ -26,7 +26,7 @@
         "action": "Authentication failed",
         "authentication": {
           "method": "802.1x",
-          "server": "AUTH_SERVER01,"
+          "server": "AUTH_SERVER01"
         }
       }
     },

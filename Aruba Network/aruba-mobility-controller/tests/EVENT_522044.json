@@ -26,6 +26,11 @@
         "action": "Station authenticate(start)",
         "authentication": {
           "method": "802.1x"
+        },
+        "default": {
+          "vlan": {
+            "id": "1"
+          }
         }
       }
     },
@@ -34,7 +39,7 @@
     },
     "network": {
       "vlan": {
-        "id": "1/1"
+        "id": "1"
       }
     },
     "observer": {

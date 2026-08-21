@@ -56,7 +56,7 @@ pipeline:
           '124003': >-
             Result\\?=%{NOTPARENTHESIS:action}\(%{INT:result_code}\),
             method\\?=%{NOTCOMMA:authentication_method},
-            server\\?=%{NOTSPACE:authentication_server}
+            server\\?=%{NOTCOMMA:authentication_server},
             user\\?=(%{MAC:station_mac}|%{NOTSPACE:user_name})
           '124025': >-
             Administrative user \'(%{MAC:station_mac}|%{NOTSPACE:user_name})\'
@@ -111,7 +111,7 @@ pipeline:
           '501100': >-
             (?<action>Assoc success) @ %{DATA:timestamp}:
             %{NOTSPACE:station_mac}: AP
-            %{IP:source_ip}-%{NOTDASH:bssid}-(%{IP:ap_ip}|%{NOTSPACE:ap_name})
+            %{IP:ap_ip}-%{NOTDASH:bssid}-%{NOTSPACE:ap_name}
           '501101': >-
             (?<action>Assoc failure): %{NOTSPACE:station_mac}: AP
             %{IP:source_ip}-%{NOTDASH:bssid}-(%{IP:ap_ip}|%{NOTSPACE:ap_name})
@@ -155,7 +155,7 @@ pipeline:
           '522029': >-
             MAC\\?=%{NOTSPACE:station_mac} (?<action>Station authenticate):
             method\\?=%{NOTCOMMA:authentication_method}, role\\?=%{NOTCOMMA},
-            VLAN\\?=%{NOTCOMMA:vlan_id}, Derivation\\?=%{NOTCOMMA}, Value
+            VLAN\\?=%{NOTSLASH:vlan_id}/%{NOTCOMMA:default_vlan_id}, Derivation\\?=%{NOTCOMMA}, Value
             Pair\\?=%{NOTCOMMA}(, Profile\\?=%{NOTSPACE})?
           '522030': >-
             MAC\\?=%{NOTSPACE:station_mac} (?<action>Station deauthenticated):
@@ -182,7 +182,7 @@ pipeline:
           '522044': >-
             MAC\\?=%{NOTSPACE:station_mac} (?<action>Station
             authenticate\(start\)): method\\?=%{NOTCOMMA:authentication_method},
-            role\\?=%{NOTCOMMA}, VLAN\\?=%{NOTCOMMA:vlan_id},
+            role\\?=%{NOTCOMMA}, VLAN\\?=%{NOTSLASH:vlan_id}/%{NOTCOMMA:default_vlan_id},
             Derivation\\?=%{NOTCOMMA}, Value Pair\\?=%{NOTCOMMA},
             flags\\?=%{NOTCOMMA}(, Profile\\?=%{NOTSPACE})
           '522049': >-
@@ -232,6 +232,7 @@ pipeline:
           NOTCOMMA: '[^,]+'
           NOTSEMICOLON: '[^;]+'
           NOTPARENTHESIS: '[^\(]+'
+          NOTSLASH: '[^\/]+'
   - name: parsed_event
     description: ''
     filter: '{{not parsed_event is defined or parsed_event.message == None}}'
@@ -412,6 +413,7 @@ stages:
           aruba.mobility_controller.bssid: '{{parsed_event.message.bssid}}'
           aruba.mobility_controller.essid: '{{parsed_event.message.essid}}'
           aruba.mobility_controller.action: '{{parsed_event.message.action}}'
+          aruba.mobility_controller.default.vlan.id: '{{parsed_event.message.default_vlan_id}}'
           aruba.mobility_controller.server.group: '{{parsed_event.message.server_group}}'
           aruba.mobility_controller.access_point.name: '{{parsed_event.message.ap_name}}'
           aruba.mobility_controller.authentication.method: '{{parsed_event.message.authentication_method}}'
