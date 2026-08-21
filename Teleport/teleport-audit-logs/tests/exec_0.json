@@ -1,0 +1,83 @@
+{
+  "input": {
+    "message": "{\"addr.remote\": \"10.0.0.68:38360\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T3002E\", \"command\": \"/bin/sh\", \"ei\": \"1777321533879272200\", \"event\": \"exec\", \"exitError\": \"command terminated with exit code 130\", \"kubernetes_cluster\": \"eu-west-3-prod-eks-1\", \"kubernetes_container_image\": \"123456789012.dkr.ecr.eu-west-3.amazonaws.com/app/php-job:1.0.0\", \"kubernetes_container_name\": \"job\", \"kubernetes_groups\": [\"system:masters\", \"system:authenticated\"], \"kubernetes_node_name\": \"ip-10-0-0-12.example.com\", \"kubernetes_pod_name\": \"job-0\", \"kubernetes_pod_namespace\": \"move\", \"kubernetes_users\": [\"John.Doe@example.com\"], \"login\": \"John.Doe@example.com\", \"namespace\": \"default\", \"private_key_policy\": \"none\", \"proto\": \"kube\", \"server_hostname\": \"teleport.example.com\", \"server_id\": \"b63bb683-53f9-4a16-bc24-a355049756ae\", \"server_version\": \"18.1.7\", \"sid\": \"b896d584-4caa-41af-bfea-a4bbc96220ea\", \"time\": \"2026-04-27T20:25:33.864Z\", \"uid\": \"2d3e4aca-3946-4456-8b70-d975411061c0\", \"user\": \"John.Doe@example.com\", \"user_kind\": \"1\", \"exitCode\": \"130\"}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"addr.remote\": \"10.0.0.68:38360\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T3002E\", \"command\": \"/bin/sh\", \"ei\": \"1777321533879272200\", \"event\": \"exec\", \"exitError\": \"command terminated with exit code 130\", \"kubernetes_cluster\": \"eu-west-3-prod-eks-1\", \"kubernetes_container_image\": \"123456789012.dkr.ecr.eu-west-3.amazonaws.com/app/php-job:1.0.0\", \"kubernetes_container_name\": \"job\", \"kubernetes_groups\": [\"system:masters\", \"system:authenticated\"], \"kubernetes_node_name\": \"ip-10-0-0-12.example.com\", \"kubernetes_pod_name\": \"job-0\", \"kubernetes_pod_namespace\": \"move\", \"kubernetes_users\": [\"John.Doe@example.com\"], \"login\": \"John.Doe@example.com\", \"namespace\": \"default\", \"private_key_policy\": \"none\", \"proto\": \"kube\", \"server_hostname\": \"teleport.example.com\", \"server_id\": \"b63bb683-53f9-4a16-bc24-a355049756ae\", \"server_version\": \"18.1.7\", \"sid\": \"b896d584-4caa-41af-bfea-a4bbc96220ea\", \"time\": \"2026-04-27T20:25:33.864Z\", \"uid\": \"2d3e4aca-3946-4456-8b70-d975411061c0\", \"user\": \"John.Doe@example.com\", \"user_kind\": \"1\", \"exitCode\": \"130\"}",
+    "event": {
+      "action": "exec",
+      "category": [
+        "iam"
+      ],
+      "code": "T3002E",
+      "outcome": "failure",
+      "type": [
+        "admin",
+        "info"
+      ]
+    },
+    "@timestamp": "2026-04-27T20:25:33.864000Z",
+    "container": {
+      "image": {
+        "name": "123456789012.dkr.ecr.eu-west-3.amazonaws.com/app/php-job:1.0.0"
+      },
+      "name": "job"
+    },
+    "observer": {
+      "type": "iam",
+      "version": "18.1.7"
+    },
+    "orchestrator": {
+      "cluster": {
+        "name": "eu-west-3-prod-eks-1"
+      },
+      "namespace": "move",
+      "resource": {
+        "name": "job-0"
+      },
+      "type": "kubernetes"
+    },
+    "process": {
+      "command_line": "/bin/sh"
+    },
+    "related": {
+      "ip": [
+        "10.0.0.68"
+      ],
+      "user": [
+        "John.Doe@example.com"
+      ]
+    },
+    "source": {
+      "address": "10.0.0.68",
+      "ip": "10.0.0.68",
+      "port": 38360
+    },
+    "teleport": {
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "private_key_policy": "none",
+      "protocol": "kube",
+      "session": {
+        "id": "b896d584-4caa-41af-bfea-a4bbc96220ea"
+      },
+      "uid": "2d3e4aca-3946-4456-8b70-d975411061c0",
+      "user": {
+        "kind": 1
+      }
+    },
+    "user": {
+      "effective": {
+        "name": "John.Doe@example.com"
+      },
+      "name": "John.Doe@example.com"
+    }
+  }
+}

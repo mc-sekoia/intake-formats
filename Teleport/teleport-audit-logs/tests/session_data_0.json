@@ -1,0 +1,74 @@
+{
+  "input": {
+    "message": "{\"addr.local\": \"172.17.0.3:443\", \"addr.remote\": \"172.17.0.1:56074\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T2006I\", \"ei\": 2147483646, \"event\": \"session.data\", \"login\": \"User1\", \"namespace\": \"default\", \"private_key_policy\": \"none\", \"rx\": 5081, \"server_addr\": \"[::]:3022\", \"server_hostname\": \"hostname\", \"server_id\": \"ad9c355e-bc07-448f-9534-a0624d622b24\", \"server_sub_kind\": \"teleport\", \"server_version\": \"18.10.0\", \"sid\": \"5000adb5-6913-456b-a545-60349c94c460\", \"time\": \"2026-07-16T13:36:57.827Z\", \"tx\": 5836, \"uid\": \"21975f92-2c0c-4cd6-ae71-95ba2e67592c\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": 1, \"user_roles\": [\"access\", \"editor\", \"auditor\"], \"user_traits\": {\"logins\": [\"root\", \"ubuntu\", \"ec2-user\"]}}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"addr.local\": \"172.17.0.3:443\", \"addr.remote\": \"172.17.0.1:56074\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T2006I\", \"ei\": 2147483646, \"event\": \"session.data\", \"login\": \"User1\", \"namespace\": \"default\", \"private_key_policy\": \"none\", \"rx\": 5081, \"server_addr\": \"[::]:3022\", \"server_hostname\": \"hostname\", \"server_id\": \"ad9c355e-bc07-448f-9534-a0624d622b24\", \"server_sub_kind\": \"teleport\", \"server_version\": \"18.10.0\", \"sid\": \"5000adb5-6913-456b-a545-60349c94c460\", \"time\": \"2026-07-16T13:36:57.827Z\", \"tx\": 5836, \"uid\": \"21975f92-2c0c-4cd6-ae71-95ba2e67592c\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": 1, \"user_roles\": [\"access\", \"editor\", \"auditor\"], \"user_traits\": {\"logins\": [\"root\", \"ubuntu\", \"ec2-user\"]}}",
+    "event": {
+      "action": "session.data",
+      "category": [
+        "session"
+      ],
+      "code": "T2006I",
+      "type": [
+        "info"
+      ]
+    },
+    "@timestamp": "2026-07-16T13:36:57.827000Z",
+    "destination": {
+      "address": "172.17.0.1",
+      "bytes": 5836,
+      "ip": "172.17.0.1",
+      "port": 56074
+    },
+    "observer": {
+      "type": "iam",
+      "version": "18.10.0"
+    },
+    "related": {
+      "ip": [
+        "172.17.0.1",
+        "172.17.0.3"
+      ],
+      "user": [
+        "John.Doe@example.com"
+      ]
+    },
+    "source": {
+      "address": "172.17.0.3",
+      "bytes": 5081,
+      "ip": "172.17.0.3",
+      "port": 443
+    },
+    "teleport": {
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "private_key_policy": "none",
+      "session": {
+        "id": "5000adb5-6913-456b-a545-60349c94c460"
+      },
+      "uid": "21975f92-2c0c-4cd6-ae71-95ba2e67592c",
+      "user": {
+        "kind": 1
+      }
+    },
+    "user": {
+      "effective": {
+        "name": "User1"
+      },
+      "name": "John.Doe@example.com",
+      "roles": [
+        "access",
+        "auditor",
+        "editor"
+      ]
+    }
+  }
+}

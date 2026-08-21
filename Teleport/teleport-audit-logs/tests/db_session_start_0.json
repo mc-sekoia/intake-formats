@@ -1,0 +1,62 @@
+{
+  "input": {
+    "message": "{\"cluster_name\": \"teleport.example.com\", \"code\": \"TDB00I\", \"db_name\": \"cms001\", \"db_origin\": \"cloud\", \"db_protocol\": \"mongodb\", \"db_service\": \"dev2-docdb-cms-eu-west-3-123456789012\", \"db_type\": \"docdb\", \"db_uri\": \"database.cluster-abc123.eu-west-3.docdb.example.com:27017\", \"db_user\": \"TeleportDocumentdbRW\", \"ei\": \"0\", \"event\": \"db.session.start\", \"namespace\": \"default\", \"private_key_policy\": \"none\", \"server_id\": \"f8d6c5ae-d405-4884-be51-f6beaaa577c5\", \"server_version\": \"18.1.7\", \"sid\": \"207d45a3-6a29-4e16-8287-0f7848320d26\", \"success\": true, \"time\": \"2026-04-27T16:55:21.754024836Z\", \"uid\": \"752f5705-ae88-463a-ade9-cffbb6c3b6af\", \"user\": \"John.Doe@example.com\", \"user_kind\": \"1\"}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"cluster_name\": \"teleport.example.com\", \"code\": \"TDB00I\", \"db_name\": \"cms001\", \"db_origin\": \"cloud\", \"db_protocol\": \"mongodb\", \"db_service\": \"dev2-docdb-cms-eu-west-3-123456789012\", \"db_type\": \"docdb\", \"db_uri\": \"database.cluster-abc123.eu-west-3.docdb.example.com:27017\", \"db_user\": \"TeleportDocumentdbRW\", \"ei\": \"0\", \"event\": \"db.session.start\", \"namespace\": \"default\", \"private_key_policy\": \"none\", \"server_id\": \"f8d6c5ae-d405-4884-be51-f6beaaa577c5\", \"server_version\": \"18.1.7\", \"sid\": \"207d45a3-6a29-4e16-8287-0f7848320d26\", \"success\": true, \"time\": \"2026-04-27T16:55:21.754024836Z\", \"uid\": \"752f5705-ae88-463a-ade9-cffbb6c3b6af\", \"user\": \"John.Doe@example.com\", \"user_kind\": \"1\"}",
+    "event": {
+      "action": "db.session.start",
+      "category": [
+        "database",
+        "session"
+      ],
+      "code": "TDB00I",
+      "outcome": "success",
+      "type": [
+        "info",
+        "start"
+      ]
+    },
+    "@timestamp": "2026-04-27T16:55:21.754024Z",
+    "observer": {
+      "type": "iam",
+      "version": "18.1.7"
+    },
+    "related": {
+      "user": [
+        "John.Doe@example.com"
+      ]
+    },
+    "teleport": {
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "db": {
+        "name": "cms001",
+        "origin": "cloud",
+        "protocol": "mongodb",
+        "service": "dev2-docdb-cms-eu-west-3-123456789012",
+        "type": "docdb",
+        "uri": "database.cluster-abc123.eu-west-3.docdb.example.com:27017",
+        "user": "TeleportDocumentdbRW"
+      },
+      "private_key_policy": "none",
+      "session": {
+        "id": "207d45a3-6a29-4e16-8287-0f7848320d26"
+      },
+      "uid": "752f5705-ae88-463a-ade9-cffbb6c3b6af",
+      "user": {
+        "kind": 1
+      }
+    },
+    "user": {
+      "name": "John.Doe@example.com"
+    }
+  }
+}

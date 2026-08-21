@@ -1,0 +1,71 @@
+{
+  "input": {
+    "message": "{\"addr.remote\": \"10.0.0.5:50650\", \"bot_instance_id\": \"c6f87ebf-5b85-4928-9d78-d1fcb00a7454\", \"bot_name\": \"operator\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T9001I\", \"ei\": \"0\", \"event\": \"role.deleted\", \"expires\": \"0001-01-01T00:00:00Z\", \"impersonator\": \"bot-operator\", \"name\": \"backend-mongodb-noprod-ro\", \"time\": \"2026-05-20T08:28:49.869Z\", \"uid\": \"f7a7dd40-9868-4e65-b980-b05ccb9032eb\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": \"2\", \"user_roles\": [\"operator\"]}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"addr.remote\": \"10.0.0.5:50650\", \"bot_instance_id\": \"c6f87ebf-5b85-4928-9d78-d1fcb00a7454\", \"bot_name\": \"operator\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T9001I\", \"ei\": \"0\", \"event\": \"role.deleted\", \"expires\": \"0001-01-01T00:00:00Z\", \"impersonator\": \"bot-operator\", \"name\": \"backend-mongodb-noprod-ro\", \"time\": \"2026-05-20T08:28:49.869Z\", \"uid\": \"f7a7dd40-9868-4e65-b980-b05ccb9032eb\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": \"2\", \"user_roles\": [\"operator\"]}",
+    "event": {
+      "action": "role.deleted",
+      "category": [
+        "iam"
+      ],
+      "code": "T9001I",
+      "outcome": "success",
+      "type": [
+        "admin",
+        "deletion"
+      ]
+    },
+    "@timestamp": "2026-05-20T08:28:49.869000Z",
+    "observer": {
+      "type": "iam"
+    },
+    "related": {
+      "ip": [
+        "10.0.0.5"
+      ],
+      "user": [
+        "bot-operator"
+      ]
+    },
+    "source": {
+      "address": "10.0.0.5",
+      "ip": "10.0.0.5",
+      "port": 50650
+    },
+    "teleport": {
+      "bot": {
+        "name": "operator"
+      },
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "instance": {
+        "id": "c6f87ebf-5b85-4928-9d78-d1fcb00a7454"
+      },
+      "role": {
+        "expires": "0001-01-01T00:00:00Z",
+        "name": "backend-mongodb-noprod-ro"
+      },
+      "uid": "f7a7dd40-9868-4e65-b980-b05ccb9032eb",
+      "user": {
+        "kind": 2
+      }
+    },
+    "user": {
+      "effective": {
+        "name": "John.Doe@example.com"
+      },
+      "name": "bot-operator",
+      "roles": [
+        "operator"
+      ]
+    }
+  }
+}

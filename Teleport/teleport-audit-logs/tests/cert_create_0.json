@@ -1,0 +1,63 @@
+{
+  "input": {
+    "message": "{\"cert_type\": \"user\", \"certificate_authority\": {\"domain\": \"teleport.example.com\", \"subject_key_id\": \"CQ8368R57B23K03IIHNQGDGI313RRVRD\", \"type\": \"user\"}, \"cluster_name\": \"teleport.example.com\", \"code\": \"TC000I\", \"ei\": \"0\", \"event\": \"cert.create\", \"identity\": {\"client_ip\": \"10.0.0.40\", \"database_names\": [\"*\"], \"database_users\": [\"*\", \"TeleportDocumentdbRW\"], \"expires\": \"2026-05-06T21:12:09.000012481Z\", \"kubernetes_cluster\": \"eu-west-3-preprod-eks-0\", \"kubernetes_groups\": [\"edit\", \"system:masters\"], \"logins\": [\"root\", \"ec2-user\", \"ubuntu\"], \"private_key_policy\": \"none\", \"roles\": [\"global-docdb-rw\", \"global-eks-admin\"], \"route_to_cluster\": \"teleport.example.com\", \"teleport_cluster\": \"teleport.example.com\", \"traits\": {\"email\": [\"John.Doe@example.com\"], \"family_name\": [\"Doe\"], \"given_name\": [\"John\"], \"groups\": [\"IOPS\", \"Everyone\"]}, \"usage\": [\"usage:kube\"], \"user\": \"John.Doe@example.com\"}, \"time\": \"2026-05-06T09:12:09.92Z\", \"uid\": \"dc0fcbe0-bfa1-46f9-8108-ed7ad73351dd\", \"user_agent\": \"tsh/17.5.2 grpc-go/1.71.0\"}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"cert_type\": \"user\", \"certificate_authority\": {\"domain\": \"teleport.example.com\", \"subject_key_id\": \"CQ8368R57B23K03IIHNQGDGI313RRVRD\", \"type\": \"user\"}, \"cluster_name\": \"teleport.example.com\", \"code\": \"TC000I\", \"ei\": \"0\", \"event\": \"cert.create\", \"identity\": {\"client_ip\": \"10.0.0.40\", \"database_names\": [\"*\"], \"database_users\": [\"*\", \"TeleportDocumentdbRW\"], \"expires\": \"2026-05-06T21:12:09.000012481Z\", \"kubernetes_cluster\": \"eu-west-3-preprod-eks-0\", \"kubernetes_groups\": [\"edit\", \"system:masters\"], \"logins\": [\"root\", \"ec2-user\", \"ubuntu\"], \"private_key_policy\": \"none\", \"roles\": [\"global-docdb-rw\", \"global-eks-admin\"], \"route_to_cluster\": \"teleport.example.com\", \"teleport_cluster\": \"teleport.example.com\", \"traits\": {\"email\": [\"John.Doe@example.com\"], \"family_name\": [\"Doe\"], \"given_name\": [\"John\"], \"groups\": [\"IOPS\", \"Everyone\"]}, \"usage\": [\"usage:kube\"], \"user\": \"John.Doe@example.com\"}, \"time\": \"2026-05-06T09:12:09.92Z\", \"uid\": \"dc0fcbe0-bfa1-46f9-8108-ed7ad73351dd\", \"user_agent\": \"tsh/17.5.2 grpc-go/1.71.0\"}",
+    "event": {
+      "action": "cert.create",
+      "category": [
+        "iam"
+      ],
+      "code": "TC000I",
+      "outcome": "success",
+      "type": [
+        "admin",
+        "creation"
+      ]
+    },
+    "@timestamp": "2026-05-06T09:12:09.920000Z",
+    "file": {
+      "x509": {
+        "issuer": {
+          "common_name": "teleport.example.com"
+        },
+        "not_after": "2026-05-06T21:12:09.000012Z",
+        "serial_number": "CQ8368R57B23K03IIHNQGDGI313RRVRD"
+      }
+    },
+    "observer": {
+      "type": "iam"
+    },
+    "related": {
+      "ip": [
+        "10.0.0.40"
+      ],
+      "user": [
+        "John.Doe@example.com"
+      ]
+    },
+    "source": {
+      "address": "10.0.0.40",
+      "ip": "10.0.0.40"
+    },
+    "teleport": {
+      "certificate": {
+        "type": "user"
+      },
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "uid": "dc0fcbe0-bfa1-46f9-8108-ed7ad73351dd"
+    },
+    "user": {
+      "name": "John.Doe@example.com"
+    }
+  }
+}

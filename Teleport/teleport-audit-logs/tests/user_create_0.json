@@ -1,0 +1,60 @@
+{
+  "input": {
+    "message": "{\"addr.remote\": \"172.17.0.1:48960\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T1002I\", \"connector\": \"local\", \"ei\": 0, \"event\": \"user.create\", \"expires\": \"0001-01-01T00:00:00Z\", \"name\": \"User1\", \"roles\": [\"access\"], \"time\": \"2026-07-16T13:33:54.089Z\", \"uid\": \"fdbbb61d-9228-4edf-a4b7-f504b9f01869\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": 1, \"user_roles\": [\"access\", \"editor\", \"auditor\"], \"user_traits\": {\"logins\": [\"root\", \"ubuntu\", \"ec2-user\"]}}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"addr.remote\": \"172.17.0.1:48960\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T1002I\", \"connector\": \"local\", \"ei\": 0, \"event\": \"user.create\", \"expires\": \"0001-01-01T00:00:00Z\", \"name\": \"User1\", \"roles\": [\"access\"], \"time\": \"2026-07-16T13:33:54.089Z\", \"uid\": \"fdbbb61d-9228-4edf-a4b7-f504b9f01869\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": 1, \"user_roles\": [\"access\", \"editor\", \"auditor\"], \"user_traits\": {\"logins\": [\"root\", \"ubuntu\", \"ec2-user\"]}}",
+    "event": {
+      "action": "user.create",
+      "category": [
+        "iam"
+      ],
+      "code": "T1002I",
+      "outcome": "success",
+      "type": [
+        "creation",
+        "user"
+      ]
+    },
+    "@timestamp": "2026-07-16T13:33:54.089000Z",
+    "observer": {
+      "type": "iam"
+    },
+    "related": {
+      "ip": [
+        "172.17.0.1"
+      ],
+      "user": [
+        "John.Doe@example.com"
+      ]
+    },
+    "source": {
+      "address": "172.17.0.1",
+      "ip": "172.17.0.1",
+      "port": 48960
+    },
+    "teleport": {
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "uid": "fdbbb61d-9228-4edf-a4b7-f504b9f01869",
+      "user": {
+        "kind": 1
+      }
+    },
+    "user": {
+      "name": "John.Doe@example.com",
+      "roles": [
+        "access",
+        "auditor",
+        "editor"
+      ]
+    }
+  }
+}

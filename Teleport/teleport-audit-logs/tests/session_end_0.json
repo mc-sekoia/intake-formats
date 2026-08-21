@@ -1,0 +1,75 @@
+{
+  "input": {
+    "message": "{\"addr.remote\": \"172.17.0.1:37710\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T2004I\", \"ei\": 3, \"enhanced_recording\": false, \"event\": \"session.end\", \"interactive\": true, \"login\": \"User1\", \"namespace\": \"default\", \"participants\": [\"John.Doe@example.com\"], \"private_key_policy\": \"none\", \"proto\": \"ssh\", \"server_addr\": \"[::]:3022\", \"server_hostname\": \"hostname\", \"server_id\": \"ad9c355e-bc07-448f-9534-a0624d622b24\", \"server_sub_kind\": \"teleport\", \"server_version\": \"18.10.0\", \"session_recording\": \"node\", \"session_start\": \"2026-07-16T13:32:34.67828187Z\", \"session_stop\": \"2026-07-16T13:32:34.726786783Z\", \"sid\": \"731c3bcf-507b-4839-8cff-ee567be631af\", \"time\": \"2026-07-16T13:32:34.727Z\", \"uid\": \"f3380ec7-3dc4-482d-a173-ff20605983df\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": 1, \"user_roles\": [\"access\", \"editor\", \"auditor\"], \"user_traits\": {\"logins\": [\"root\", \"ubuntu\", \"ec2-user\"]}}",
+    "sekoiaio": {
+      "intake": {
+        "dialect": "Teleport",
+        "dialect_uuid": "b7c99447-f2bc-472e-929d-276266a100f3"
+      }
+    }
+  },
+  "expected": {
+    "message": "{\"addr.remote\": \"172.17.0.1:37710\", \"cluster_name\": \"teleport.example.com\", \"code\": \"T2004I\", \"ei\": 3, \"enhanced_recording\": false, \"event\": \"session.end\", \"interactive\": true, \"login\": \"User1\", \"namespace\": \"default\", \"participants\": [\"John.Doe@example.com\"], \"private_key_policy\": \"none\", \"proto\": \"ssh\", \"server_addr\": \"[::]:3022\", \"server_hostname\": \"hostname\", \"server_id\": \"ad9c355e-bc07-448f-9534-a0624d622b24\", \"server_sub_kind\": \"teleport\", \"server_version\": \"18.10.0\", \"session_recording\": \"node\", \"session_start\": \"2026-07-16T13:32:34.67828187Z\", \"session_stop\": \"2026-07-16T13:32:34.726786783Z\", \"sid\": \"731c3bcf-507b-4839-8cff-ee567be631af\", \"time\": \"2026-07-16T13:32:34.727Z\", \"uid\": \"f3380ec7-3dc4-482d-a173-ff20605983df\", \"user\": \"John.Doe@example.com\", \"user_cluster_name\": \"teleport.example.com\", \"user_kind\": 1, \"user_roles\": [\"access\", \"editor\", \"auditor\"], \"user_traits\": {\"logins\": [\"root\", \"ubuntu\", \"ec2-user\"]}}",
+    "event": {
+      "action": "session.end",
+      "category": [
+        "session"
+      ],
+      "code": "T2004I",
+      "outcome": "success",
+      "type": [
+        "end"
+      ]
+    },
+    "@timestamp": "2026-07-16T13:32:34.727000Z",
+    "observer": {
+      "type": "iam",
+      "version": "18.10.0"
+    },
+    "related": {
+      "ip": [
+        "172.17.0.1"
+      ],
+      "user": [
+        "John.Doe@example.com"
+      ]
+    },
+    "source": {
+      "address": "172.17.0.1",
+      "ip": "172.17.0.1",
+      "port": 37710
+    },
+    "teleport": {
+      "cluster": {
+        "name": "teleport.example.com"
+      },
+      "private_key_policy": "none",
+      "protocol": "ssh",
+      "session": {
+        "enhanced_recording": false,
+        "id": "731c3bcf-507b-4839-8cff-ee567be631af",
+        "interactive": true,
+        "participants": [
+          "John.Doe@example.com"
+        ],
+        "recording": "node",
+        "start": "2026-07-16T13:32:34.67828187Z"
+      },
+      "uid": "f3380ec7-3dc4-482d-a173-ff20605983df",
+      "user": {
+        "kind": 1
+      }
+    },
+    "user": {
+      "effective": {
+        "name": "User1"
+      },
+      "name": "John.Doe@example.com",
+      "roles": [
+        "access",
+        "auditor",
+        "editor"
+      ]
+    }
+  }
+}
