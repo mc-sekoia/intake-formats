@@ -23,15 +23,22 @@
     },
     "@timestamp": "2026-07-16T13:32:40.243000Z",
     "destination": {
-      "address": "172.17.0.1",
-      "ip": "172.17.0.1",
-      "port": 56808
+      "address": "172.17.0.3",
+      "ip": "172.17.0.3",
+      "port": 443
+    },
+    "network": {
+      "direction": "inbound"
     },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam",
       "version": "18.10.0"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "ip": [
         "172.17.0.1",
         "172.17.0.3"
@@ -41,9 +48,9 @@
       ]
     },
     "source": {
-      "address": "172.17.0.3",
-      "ip": "172.17.0.3",
-      "port": 443
+      "address": "172.17.0.1",
+      "ip": "172.17.0.1",
+      "port": 56808
     },
     "teleport": {
       "cluster": {

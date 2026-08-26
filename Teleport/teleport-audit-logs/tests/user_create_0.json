@@ -23,15 +23,23 @@
       ]
     },
     "@timestamp": "2026-07-16T13:33:54.089000Z",
+    "network": {
+      "direction": "inbound"
+    },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "ip": [
         "172.17.0.1"
       ],
       "user": [
-        "John.Doe@example.com"
+        "John.Doe@example.com",
+        "User1"
       ]
     },
     "source": {
@@ -54,7 +62,10 @@
         "access",
         "auditor",
         "editor"
-      ]
+      ],
+      "target": {
+        "name": "User1"
+      }
     }
   }
 }

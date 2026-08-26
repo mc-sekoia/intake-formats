@@ -33,9 +33,13 @@
       }
     },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "ip": [
         "10.0.0.40"
       ],
@@ -58,6 +62,16 @@
     },
     "user": {
       "name": "John.Doe@example.com"
+    },
+    "user_agent": {
+      "device": {
+        "name": "Other"
+      },
+      "name": "Other",
+      "original": "tsh/17.5.2 grpc-go/1.71.0",
+      "os": {
+        "name": "Other"
+      }
     }
   }
 }

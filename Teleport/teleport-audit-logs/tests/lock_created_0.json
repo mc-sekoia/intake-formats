@@ -24,9 +24,13 @@
     },
     "@timestamp": "2026-07-16T13:36:35.398000Z",
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "user": [
         "John.Doe@example.com"
       ]
@@ -34,6 +38,9 @@
     "teleport": {
       "cluster": {
         "name": "teleport.example.com"
+      },
+      "lock": {
+        "name": "d0a2d482-7ce3-4aad-982c-ca986679a45d"
       },
       "uid": "b1a8c49f-958d-42df-b0f8-f6834e865100",
       "user": {

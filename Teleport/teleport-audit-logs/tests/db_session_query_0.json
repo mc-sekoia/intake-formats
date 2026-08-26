@@ -25,12 +25,16 @@
     },
     "@timestamp": "2026-04-28T13:24:58.273000Z",
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam"
     },
     "process": {
       "command_line": "OpMsg(Body={\"ismaster\": {\"$numberInt\":\"1\"},\"$db\": \"admin\"}, Documents=[], Flags=)"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "user": [
         "John.Doe@example.com"
       ]

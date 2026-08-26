@@ -29,7 +29,11 @@
       },
       "name": "job"
     },
+    "network": {
+      "direction": "inbound"
+    },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam",
       "version": "18.1.7"
     },
@@ -47,6 +51,9 @@
       "command_line": "/bin/sh"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "ip": [
         "10.0.0.70"
       ],

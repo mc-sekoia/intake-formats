@@ -25,10 +25,14 @@
     },
     "@timestamp": "2026-04-27T16:55:21.754024Z",
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam",
       "version": "18.1.7"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "user": [
         "John.Doe@example.com"
       ]

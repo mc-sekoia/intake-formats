@@ -1,4 +1,4 @@
-name: teleportalternative
+name: teleport audit logs
 ignored_values: []
 pipeline:
   - name: parsed_event
@@ -19,29 +19,29 @@ pipeline:
     external:
       name: grok.match
       properties:
-        input_field: '{{parsed_event.message[''addr.remote'']}}'
+        input_field: >-
+          {{parsed_event.message['addr.remote']}}
         output_field: message
         pattern: >-
-          (%{IP:ip}(:%{POSINT:port})?|\[%{IP:ip}\](:%{POSINT:port})?|%{HOSTNAME:host}(:%{POSINT:port})?)
-        custom_patterns: {}
+          (%{IP:ip}(:%{POSINT:port})?|\[%{IP:ip}\](:%{POSINT:port})?|(?<host>@?%{HOSTNAME})(:%{POSINT:port})?)
   - name: parsed_addr
     external:
       name: grok.match
       properties:
-        input_field: '{{parsed_event.message[''addr'']}}'
+        input_field: >-
+          {{parsed_event.message['addr']}}
         output_field: message
         pattern: >-
-          (%{IP:ip}(:%{POSINT:port})?|\[%{IP:ip}\](:%{POSINT:port})?|%{HOSTNAME:host}(:%{POSINT:port})?)
-        custom_patterns: {}
+          (%{IP:ip}(:%{POSINT:port})?|\[%{IP:ip}\](:%{POSINT:port})?|(?<host>@?%{HOSTNAME})(:%{POSINT:port})?)
   - name: parsed_local
     external:
       name: grok.match
       properties:
-        input_field: '{{parsed_event.message[''addr.local'']}}'
+        input_field: >-
+          {{parsed_event.message['addr.local']}}
         output_field: message
         pattern: >-
-          (%{IP:ip}(:%{POSINT:port})?|\[%{IP:ip}\](:%{POSINT:port})?|%{HOSTNAME:host}(:%{POSINT:port})?)
-        custom_patterns: {}
+          (%{IP:ip}(:%{POSINT:port})?|\[%{IP:ip}\](:%{POSINT:port})?|(?<host>@?%{HOSTNAME})(:%{POSINT:port})?)
   - name: parsed_db_uri
     external:
       name: grok.match
@@ -49,11 +49,11 @@ pipeline:
         input_field: '{{parsed_event.message.db_uri}}'
         output_field: message
         pattern: '%{DATA:host}:%{POSINT:port}'
-        custom_patterns: {}
   - name: ecs_observer_mapping
   - name: ecs_event_mapping
   - name: ecs_error_mapping
   - name: ecs_user_mapping
+  - name: ecs_network_mapping
   - name: ecs_source_mapping
   - name: ecs_destination_mapping
   - name: ecs_x509_mapping
@@ -63,7 +63,6 @@ pipeline:
   - name: ecs_url_mapping
   - name: ecs_http_mapping
   - name: ecs_file_mapping
-  - name: ecs_network_mapping
   - name: ecs_cloud_mapping
   - name: custom_fields_mapping
   - name: ecs_authentication_categorization
@@ -74,18 +73,22 @@ pipeline:
   - name: ecs_iam_categorization
   - name: ecs_outcome_categorization
     filter: >-
-      {{not final.event.type == ['info']}}
+      {{not final.event.type == ['info'] or final.event.action in ['mfa_auth_challenge.validate']}}
 stages:
   ecs_observer_mapping:
     actions:
       - set:
           observer.type: iam
           observer.version: '{{parsed_event.message.server_version}}'
+      - set:
+          observer.hostname: '{{parsed_event.message.cluster_name}}'
+        filter: '{{not parsed_event.message.cluster_name|is_ipaddress}}'
   ecs_event_mapping:
     actions:
       - set:
           event.code: '{{parsed_event.message.code}}'
           event.action: '{{parsed_event.message.event}}'
+          event.reason: '{{parsed_event.message.reason}}'
           log.description: '{{parsed_event.message.stdout}}'
       - set:
           '@timestamp': '{{parsed_date.timestamp}}'
@@ -125,25 +128,49 @@ stages:
           user.name: '{{parsed_event.message.user or parsed_event.message.user_name}}'
           user.effective.name: '{{parsed_event.message.login}}'
         filter: '{{parsed_event.message.login is defined}}'
+      - set:
+          user.target.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event in ['user.create','user.delete','user.update']}}
+  ecs_network_mapping:
+    actions:
+      - set: 
+          network.direction: outbound
+        filter: >-
+          {{(parsed_addr is defined or parsed_remote is defined or parsed_local is defined) and (parsed_event.message.event in ['session.connect'] or parsed_event.message.event.startswith('desktop.') or parsed_event.message.event.startswith('linux.desktop') 
+           or parsed_event.message.event.startswith('windows.desktop'))}}
+      - set:
+          network.direction: inbound
+        filter: >-
+          {{(parsed_addr is defined or parsed_remote is defined or parsed_local is defined) and not final.network is defined or not final.network.direction is defined}}
+      - set:
+          network.protocol: sftp
+        filter: >-
+          {{parsed_event.message.event == 'sftp'}}
+      - set:
+          network.protocol: scp
+        filter: >-
+          {{parsed_event.message.event == 'scp'}}
   ecs_source_mapping:
     actions:
       - set:
           source.ip: '{{parsed_addr.message.ip}}'
           source.port: '{{parsed_addr.message.port}}'
           source.domain: '{{parsed_addr.message.host}}'
-        filter: '{{parsed_addr is defined and parsed_addr.message != none}}'
+        filter: >-
+          {{parsed_addr is defined and parsed_addr.message != none and final.network.direction == 'outbound'}}
       - set:
           source.ip: '{{parsed_local.message.ip}}'
           source.port: '{{parsed_local.message.port}}'
           source.domain: '{{parsed_local.message.host}}'
-        filter: '{{parsed_local is defined and parsed_local.message != none}}'
+        filter: >-
+          {{parsed_local is defined and parsed_local.message != none and final.network.direction == 'outbound'}}
       - set:
           source.ip: '{{parsed_remote.message.ip}}'
           source.port: '{{parsed_remote.message.port}}'
           source.domain: '{{parsed_remote.message.host}}'
         filter: >-
-          {{not parsed_local is defined and not parsed_addr is defined and
-          parsed_remote is defined and parsed_remote.message != none}}
+          {{parsed_remote is defined and parsed_remote.message != none and final.network.direction == 'inbound'}}
       - set:
           source.ip: '{{parsed_event.message.identity.client_ip}}'
         filter: '{{parsed_event.message.identity is defined}}'
@@ -152,14 +179,29 @@ stages:
   ecs_destination_mapping:
     actions:
       - set:
+          destination.ip: '{{parsed_addr.message.ip}}'
+          destination.port: '{{parsed_addr.message.port}}'
+          destination.domain: '{{parsed_addr.message.host}}'
+        filter: >-
+          {{parsed_addr is defined and parsed_addr.message != none and final.network.direction == 'inbound'}}
+      - set:
+          destination.ip: '{{parsed_local.message.ip}}'
+          destination.port: '{{parsed_local.message.port}}'
+          destination.domain: '{{parsed_local.message.host}}'
+        filter: >-
+          {{parsed_local is defined and parsed_local.message != none and final.network.direction == 'inbound'}}
+      - set:
           destination.ip: '{{parsed_remote.message.ip}}'
           destination.port: '{{parsed_remote.message.port}}'
           destination.domain: '{{parsed_remote.message.host}}'
         filter: >-
-          {{(parsed_local is defined or parsed_addr is defined) and
-          parsed_remote is defined and parsed_remote.message != none}}
+          {{parsed_remote is defined and parsed_remote.message != none and final.network.direction == 'outbound'}}
       - set:
           destination.bytes: '{{parsed_event.message.tx}}'
+          destination.domain: '{{parsed_event.message.identity.desktop_name}}'
+      - set:
+          destination.ip: '{{parsed_event.message.identity.desktop_addr}}'
+        filter: '{{parsed_event.message.identity.desktop_addr|is_ipaddress}}'
   ecs_x509_mapping:
     actions:
       - set:
@@ -182,10 +224,15 @@ stages:
           orchestrator.namespace: >-
             {{parsed_event.message.resource_namespace or
             parsed_event.message.kubernetes_pod_namespace}}
-          orchestrator.cluster.name: '{{parsed_event.message.kubernetes_cluster}}'
           orchestrator.resource.name: '{{parsed_event.message.kubernetes_pod_name}}'
           orchestrator.resource.type: '{{final.teleport.resource.kind}}'
+          orchestrator.cluster.name: '{{parsed_event.message.kubernetes_cluster}}'
         filter: '{{parsed_event.message.kubernetes_cluster is defined}}'
+      - set:
+          orchestrator.type: kubernetes
+          orchestrator.cluster.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('kube.')}}
   ecs_url_mapping:
     actions:
       - set:
@@ -195,19 +242,13 @@ stages:
       - set:
           http.request.method: '{{parsed_event.message.verb}}'
           http.response.status_code: '{{parsed_event.message.response_code}}'
+          user_agent.original: '{{parsed_event.message.user_agent}}'
   ecs_file_mapping:
     actions:
       - set:
           file.path: '{{parsed_event.message.path}}'
-        filter: '{{parsed_event.message.event in [''sftp'',''scp'']}}'
-  ecs_network_mapping:
-    actions:
-      - set:
-          network.protocol: sftp
-        filter: '{{parsed_event.message.event == ''sftp''}}'
-      - set:
-          network.protocol: scp
-        filter: '{{parsed_event.message.event == ''scp''}}'
+        filter: >-
+          {{parsed_event.message.event in ['sftp','scp']}}
   ecs_cloud_mapping:
     actions:
       - set:
@@ -215,7 +256,6 @@ stages:
           cloud.origin.account.id: '{{parsed_event.message.account_id}}'
           cloud.target.instance.id: '{{parsed_event.message.instance_id}}'
           cloud.target.machine.type: '{{parsed_event.message.platform_type}}'
-          cloud.target.service.name: '{{parsed_event.message.platform_name}}'
   custom_fields_mapping:
     actions:
       - set:
@@ -225,6 +265,9 @@ stages:
             parsed_event.message.identity.bot_name}}
           teleport.protocol: '{{parsed_event.message.proto}}'
           teleport.token.name: '{{parsed_event.message.token_name}}'
+          teleport.application.name: '{{parsed_event.message.app_name}}'
+          teleport.access_list.name: '{{parsed_event.message.access_list_name}}'
+          teleport.access_list.title: '{{parsed_event.message.access_list_title}}'
           teleport.instance.id: >-
             {{parsed_event.message.instance_id or parsed_event.message.host_id or parsed_event.message.bot_instance_id or
             parsed_event.message.identity.bot_instance_id}}
@@ -255,6 +298,10 @@ stages:
           teleport.db.service: '{{parsed_event.message.db_service}}'
           teleport.db.protocol: '{{parsed_event.message.db_protocol}}'
       - set:
+          teleport.mfa.device.name: '{{parsed_event.message.mfa_device_name}}'
+          teleport.mfa.device.type: '{{parsed_event.message.mfa_device_type}}'
+          teleport.mfa.device.uuid: '{{parsed_event.message.mfa_device_uuid}}'
+      - set:
           teleport.resource.kind: '{{parsed_event.message.resource_kind}}'
           teleport.resource.api.group: '{{parsed_event.message.resource_api_group}}'
           teleport.resource.namespace: '{{parsed_event.message.resource_namespace}}'
@@ -269,10 +316,41 @@ stages:
           teleport.authentication.connector.kind: '{{parsed_event.message.connector.kind}}'
       - set:
           teleport.authentication.connector.name: '{{parsed_event.message.name}}'
-        filter: '{{parsed_event.message.event in ["saml.created"]}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('oidc.') or (parsed_event.message.event.startswith('saml.') and not parsed_event.message.event.startswith('saml.idp'))}}
+      - set:
+          teleport.access_list.members: >-
+            {{parsed_event.message.members | map(attribute='member_name') |list}}
+        filter: >-
+          {{parsed_event.message.event.startswith('access_list.member.')}}
       - set:
           teleport.token.name: '{{parsed_event.message.name}}'
         filter: '{{parsed_event.message.event in ["join_token.create"]}}'
+      - set:
+          teleport.token.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{'_token.' in parsed_event.message.event}}
+      - set:
+          teleport.bot.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('bot.')}}
+      - set:
+          teleport.db.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('db.')}}
+      - set:
+          teleport.lock.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('lock.')}}
+      - set:
+          teleport.access_list.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('access_list.')  and parsed_event.message.event.split('.')|length <=2}}
+      - set:
+          teleport.application.name: '{{parsed_event.message.name}}'
+        filter: >-
+          {{parsed_event.message.event.startswith('app.') and parsed_event.message.event.split('.')|length <=2}}
+      
   ecs_authentication_categorization:
     actions:
       - set:
@@ -280,18 +358,18 @@ stages:
         filter: >-
           {{not 'authentication' in final.event.category and ('login' in
           final.event.action or 'auth' in final.event.action or 'logout' in
-          final.event.action or 'logoff' in final.event.action)}}
+          final.event.action or 'logoff' in final.event.action or final.event.action in ['client.disconnect'])}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''end'']}}'
         filter: >-
           {{'authentication' in final.event.category and 'end' not in
-          final.event.type and 'logout' in final.event.action}}
+          final.event.type and 'logout' in final.event.action or final.event.action in ['client.disconnect']}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''start'']}}'
         filter: >-
           {{'authentication' in final.event.category and 'start' not in
           final.event.type and ('login' in final.event.action or 'auth' in
-          final.event.action)}}
+          final.event.action) and not final.event.action in ['mfa_auth_challenge.create','mfa_auth_challenge.validate']}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''info'']}}'
         filter: >-
@@ -402,8 +480,8 @@ stages:
       - set:
           event.category: '{{(final.event.category|default([])) + [''session'']}}'
         filter: >-
-          {{not 'session' in final.event.category and ('session' in
-          final.event.action or final.event.action == 'bot.join')}}
+          {{not 'session' in final.event.category and 'session' in
+          final.event.action}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''end'']}}'
         filter: >-
@@ -432,7 +510,7 @@ stages:
           event.type: '{{(final.event.type|default([])) + [''user'']}}'
         filter: >-
           {{'iam' in final.event.category and 'user' not in final.event.type and
-          ('user' in final.event.action)}}
+          ('user' in final.event.action or 'mfa' in final.event.action)}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''group'']}}'
         filter: >-
@@ -447,21 +525,20 @@ stages:
           event.type: '{{(final.event.type|default([])) + [''creation'']}}'
         filter: >-
           {{'iam' in final.event.category and 'creation' not in final.event.type
-          and ('create' in final.event.action or 'clean' in
-          final.event.action)}}
+          and ('create' in final.event.action)}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''deletion'']}}'
         filter: >-
           {{'iam' in final.event.category and 'deletion' not in final.event.type
           and ('delete' in final.event.action or 'clean' in
-          final.event.action)}}
+          final.event.action) and not final.event.action in ['mfa.delete']}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''change'']}}'
         filter: >-
           {{'iam' in final.event.category and 'change' not in final.event.type
           and 'creation' not in final.event.type and 'deletion' not in
           final.event.type and ('update' in final.event.action or 'patch' in
-          final.event.action or ('change' in final.event.action))}}
+          final.event.action or ('change' in final.event.action) or final.event.action in ['mfa.add','mfa.delete'])}}
       - set:
           event.type: '{{(final.event.type|default([])) + [''info'']}}'
         filter: >-

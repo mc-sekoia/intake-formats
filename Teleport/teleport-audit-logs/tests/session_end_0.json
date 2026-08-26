@@ -22,11 +22,18 @@
       ]
     },
     "@timestamp": "2026-07-16T13:32:34.727000Z",
+    "network": {
+      "direction": "inbound"
+    },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam",
       "version": "18.10.0"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "ip": [
         "172.17.0.1"
       ],

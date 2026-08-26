@@ -36,9 +36,6 @@
         },
         "machine": {
           "type": "Linux"
-        },
-        "service": {
-          "name": "Amazon Linux"
         }
       }
     },
@@ -49,7 +46,13 @@
       "description": "Teleport is installed and running."
     },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam"
+    },
+    "related": {
+      "hosts": [
+        "teleport.example.com"
+      ]
     },
     "teleport": {
       "cluster": {

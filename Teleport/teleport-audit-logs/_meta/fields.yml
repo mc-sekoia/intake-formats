@@ -1,7 +1,37 @@
+teleport.access_list.members:
+  description: Teleport access list members
+  name: teleport.access_list.members
+  type: keyword
+
+teleport.access_list.name:
+  description: Teleport access list name
+  name: teleport.access_list.name
+  type: keyword
+
+teleport.access_list.title:
+  description: Teleport access list title
+  name: teleport.access_list.title
+  type: keyword
+
+teleport.application.name:
+  description: Teleport application name
+  name: teleport.application.name
+  type: keyword
+
+teleport.authentication.connector.acs:
+  description: ACS link of the authentication connector used for the login (e.g. okta)
+  name: teleport.authentication.connector.acs
+  type: keyword
+
 teleport.authentication.connector.id:
   description: Identifier of the authentication connector used for the login (e.g.
     okta)
   name: teleport.authentication.connector.id
+  type: keyword
+
+teleport.authentication.connector.kind:
+  description: Kind of the authentication connector used for the login
+  name: teleport.authentication.connector.kind
   type: keyword
 
 teleport.authentication.connector.name:
@@ -10,31 +40,14 @@ teleport.authentication.connector.name:
   name: teleport.authentication.connector.name
   type: keyword
 
-teleport.authentication.connector.acs:
-  description: ACS link of the authentication connector used for the login (e.g.
-    okta)
-  name: teleport.authentication.connector.acs
-  type: keyword
-
 teleport.authentication.connector.sso:
-  description: SSO link of the authentication connector used for the login (e.g.
-    okta)
+  description: SSO link of the authentication connector used for the login (e.g. okta)
   name: teleport.authentication.connector.sso
-  type: keyword
-
-teleport.authentication.connector.kind:
-  description: Kind of the authentication connector used for the login
-  name: teleport.authentication.connector.kind
   type: keyword
 
 teleport.authentication.method:
   description: Authentication method used for the login (e.g. saml, local)
   name: teleport.authentication.method
-  type: keyword
-
-teleport.instance.id:
-  description: Identifier of the bot instance that performed the action
-  name: teleport.instance.id
   type: keyword
 
 teleport.bot.name:
@@ -62,9 +75,19 @@ teleport.db.origin:
   name: teleport.db.origin
   type: keyword
 
+teleport.db.protocol:
+  description: Database protocol used in the connection
+  name: teleport.db.protocol
+  type: keyword
+
 teleport.db.query:
   description: Database query executed during the session
   name: teleport.db.query
+  type: keyword
+
+teleport.db.roles:
+  description: Database roles
+  name: teleport.db.roles
   type: keyword
 
 teleport.db.service:
@@ -87,29 +110,29 @@ teleport.db.user:
   name: teleport.db.user
   type: keyword
 
-teleport.db.roles:
-  description: Database roles
-  name: teleport.db.roles
+teleport.instance.id:
+  description: Identifier of the bot instance that performed the action
+  name: teleport.instance.id
   type: keyword
 
-teleport.db.protocol:
-  description: Database protocol used in the connection
-  name: teleport.db.protocol
+teleport.lock.name:
+  description: Teleport lock name
+  name: teleport.lock.name
   type: keyword
 
-teleport.resource.api.group:
-  description: Api group of the ressource
-  name: teleport.resource.api.group
+teleport.mfa.device.name:
+  description: Teleport mfa device name
+  name: teleport.mfa.device.name
   type: keyword
 
-teleport.resource.namespace:
-  description: Api group of the ressource
-  name: teleport.resource.namespace
+teleport.mfa.device.type:
+  description: Teleport mfa device type
+  name: teleport.mfa.device.type
   type: keyword
 
-teleport.resource.kind:
-  description: Kind of the ressource
-  name: teleport.resource.kind
+teleport.mfa.device.uuid:
+  description: Teleport mfa device uuid
+  name: teleport.mfa.device.uuid
   type: keyword
 
 teleport.private_key_policy:
@@ -122,9 +145,19 @@ teleport.protocol:
   name: teleport.protocol
   type: keyword
 
-teleport.token.name:
-  description: Name of the generated or used token
-  name: teleport.token.name
+teleport.resource.api.group:
+  description: Api group of the ressource
+  name: teleport.resource.api.group
+  type: keyword
+
+teleport.resource.kind:
+  description: Kind of the ressource
+  name: teleport.resource.kind
+  type: keyword
+
+teleport.resource.namespace:
+  description: Api group of the ressource
+  name: teleport.resource.namespace
   type: keyword
 
 teleport.role.expires:
@@ -137,10 +170,20 @@ teleport.role.name:
   name: teleport.role.name
   type: keyword
 
+teleport.session.end:
+  description: Times the sesion ended
+  name: teleport.session.end
+  type: keyword
+
 teleport.session.enhanced_recording:
   description: Whether enhanced (BPF) session recording was enabled
   name: teleport.session.enhanced_recording
   type: boolean
+
+teleport.session.id:
+  description: Identifier of the Teleport session
+  name: teleport.session.id
+  type: keyword
 
 teleport.session.interactive:
   description: Whether the session was interactive
@@ -157,19 +200,9 @@ teleport.session.recording:
   name: teleport.session.recording
   type: keyword
 
-teleport.session.id:
-  description: Identifier of the Teleport session
-  name: teleport.session.id
-  type: keyword
-
 teleport.session.start:
   description: Times the sesion started
   name: teleport.session.start
-  type: keyword
-
-teleport.session.end:
-  description: Times the sesion ended
-  name: teleport.session.end
   type: keyword
 
 teleport.ssm.command.id:
@@ -185,6 +218,11 @@ teleport.ssm.invocation_url:
 teleport.ssm.status:
   description: Status of the SSM command run (e.g. Success)
   name: teleport.ssm.status
+  type: keyword
+
+teleport.token.name:
+  description: Name of the generated or used token
+  name: teleport.token.name
   type: keyword
 
 teleport.uid:

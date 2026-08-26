@@ -1,16 +1,24 @@
 [
   {
-    "value": "{user.name} logged in to {teleport.cluster.name}",
+    "value": "User {user.name} logged in to {teleport.cluster.name}",
     "conditions": [
       {
-        "field": "event.action",
-        "value": "user.login"
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "start"
       },
       {
         "field": "user.name"
       },
       {
         "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
       }
     ],
     "relationships": [
@@ -22,7 +30,97 @@
     ]
   },
   {
-    "value": "{user.name} ran the command {process.command_line} on {teleport.cluster.name}",
+    "value": "User {user.name} failed to log in to {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "start"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "login failed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} logged out from {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "end"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "logged in"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to log out from {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "event.type",
+        "value": "end"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "login failed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} ran the command {process.command_line} on {teleport.cluster.name}",
     "conditions": [
       {
         "field": "user.name"
@@ -48,7 +146,7 @@
     ]
   },
   {
-    "value": "{user.name} failed to run the command {process.command_line} on {teleport.cluster.name}",
+    "value": "User {user.name} failed to run the command {process.command_line} on {teleport.cluster.name}",
     "conditions": [
       {
         "field": "user.name"
@@ -69,7 +167,532 @@
       {
         "source": "user.name",
         "target": "teleport.cluster.name",
-        "type": "executed command on"
+        "type": "failed to execute command on"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} created new auth connector : {teleport.authentication.connector.name} on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "event.type",
+        "value": "creation"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.authentication.connector.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.authentication.connector.name",
+        "type": "created"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to create new auth connector : {teleport.authentication.connector.name} on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "event.type",
+        "value": "creation"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.authentication.connector.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.authentication.connector.name",
+        "type": "creation failed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} removed auth connector : {teleport.authentication.connector.name} on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "event.type",
+        "value": "deletion"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.authentication.connector.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.authentication.connector.name",
+        "type": "removed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to remove auth connector : {teleport.authentication.connector.name} on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "event.type",
+        "value": "deletion"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "teleport.authentication.connector.name"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.authentication.connector.name",
+        "type": "removal failed"
+      }
+    ]
+  },
+  {
+    "value": "MFA challenge started for user {user.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa_auth_challenge.create"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "MFA challenge started"
+      }
+    ]
+  },
+  {
+    "value": "MFA challenge has been completed for user {user.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa_auth_challenge.validate"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "MFA challenge validated"
+      }
+    ]
+  },
+  {
+    "value": "MFA challenge failed for user {user.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "authentication"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa_auth_challenge.validate"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "MFA challenge failed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} registered a new MFA device on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa.add"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "registered MFA device"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to register a new MFA device on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa.add"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "failed MFA device register"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} removed an MFA device on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa.delete"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "registered MFA device"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to remove an MFA device on cluster {teleport.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "iam"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "mfa.delete"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "failed MFA device register"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} removed the kubernetes cluster {orchestrator.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "kube.delete"
+      },
+      {
+        "field": "orchestrator.cluster.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "orchestrator.cluster.name",
+        "type": "removed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to remove the kubernetes cluster {orchestrator.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "kube.delete"
+      },
+      {
+        "field": "orchestrator.cluster.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "orchestrator.cluster.name",
+        "type": "failed removal"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} created the kubernetes cluster {orchestrator.cluster.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "kube.create"
+      },
+      {
+        "field": "orchestrator.cluster.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "orchestrator.cluster.name",
+        "type": "created"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to create the kubernetes cluster {teleport.db.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "kube.create"
+      },
+      {
+        "field": "orchestrator.cluster.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "orchestrator.cluster.name",
+        "type": "failed creation"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} removed the database {teleport.db.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "db.delete"
+      },
+      {
+        "field": "teleport.db.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.db.name",
+        "type": "removed"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to remove the database {teleport.db.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "db.delete"
+      },
+      {
+        "field": "teleport.db.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.db.name",
+        "type": "failed removal"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} created the database {teleport.db.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "db.create"
+      },
+      {
+        "field": "teleport.db.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.db.name",
+        "type": "created"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to create the database {teleport.db.name}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "db.create"
+      },
+      {
+        "field": "teleport.db.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.db.name",
+        "type": "failed creation"
       }
     ]
   },
@@ -157,7 +780,7 @@
     ]
   },
   {
-    "value": "{user.name} performed the following action on database {teleport.db.name} : {event.action}",
+    "value": "User {user.name} performed the following action on database {teleport.db.name} : {event.action}",
     "conditions": [
       {
         "field": "teleport.db.name"
@@ -182,11 +805,40 @@
     ]
   },
   {
-    "value": "Bot {teleport.bot.name} joined cluster {teleport.cluster.name}",
+    "value": "User {user.name} performed the following database action : {event.action}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "database"
+      },
+      {
+        "field": "event.action"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "event.action"
+      }
+    ]
+  },
+  {
+    "value": "Bot {teleport.bot.name} joined the cluster {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
         "value": "bot.join"
+      },
+      {
+        "field": "teleport.bot.name"
       },
       {
         "field": "teleport.cluster.name"
@@ -205,11 +857,14 @@
     ]
   },
   {
-    "value": "Bot {teleport.bot.name} failed to join cluster {teleport.cluster.name}",
+    "value": "Bot {teleport.bot.name} failed to join the cluster {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
         "value": "bot.join"
+      },
+      {
+        "field": "teleport.bot.name"
       },
       {
         "field": "teleport.cluster.name"
@@ -228,7 +883,7 @@
     ]
   },
   {
-    "value": "{user.name} created bot {teleport.bot.name} in the cluster {teleport.cluster.name}",
+    "value": "User {user.name} created bot {teleport.bot.name} in the cluster {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
@@ -247,10 +902,17 @@
         "field": "event.outcome",
         "value": "success"
       }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.bot.name",
+        "type": "created"
+      }
     ]
   },
   {
-    "value": "{user.name} deleted bot {teleport.bot.name} in the cluster {teleport.cluster.name}",
+    "value": "User {user.name} deleted bot {teleport.bot.name} in the cluster {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
@@ -268,6 +930,13 @@
       {
         "field": "event.outcome",
         "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.bot.name",
+        "type": "failed creation"
       }
     ]
   },
@@ -294,10 +963,17 @@
         "field": "event.outcome",
         "value": "success"
       }
+    ],
+    "relationships": [
+      {
+        "source": "teleport.instance.id",
+        "target": "teleport.cluster.name",
+        "type": "joined"
+      }
     ]
   },
   {
-    "value": "New instance {teleport.instance.id} failed to join the cluster {teleport.cluster.name} using {teleport.authentication.method} method from {source.ip}",
+    "value": "New instance {teleport.instance.id} failed to join the cluster {teleport.cluster.name} from {source.ip}",
     "conditions": [
       {
         "field": "event.action",
@@ -315,6 +991,13 @@
       {
         "field": "event.outcome",
         "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "teleport.instance.id",
+        "target": "teleport.cluster.name",
+        "type": "failed to join"
       }
     ]
   },
@@ -424,7 +1107,42 @@
     ]
   },
   {
-    "value": "{user.name} started a {network.protocol} connection as {user.effective.name} from {source.address}:{source.port} to {destination.address}:{destination.port}",
+    "value": "Port forwarding from {source.address}:{source.port} to {destination.address}:{destination.port} on {orchestrator.type} cluster {orchestrator.cluster.name} failed to end",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "port"
+      },
+      {
+        "field": "event.type",
+        "value": "end"
+      },
+      {
+        "field": "source.address"
+      },
+      {
+        "field": "source.port"
+      },
+      {
+        "field": "destination.address"
+      },
+      {
+        "field": "destination.port"
+      },
+      {
+        "field": "orchestrator.type"
+      },
+      {
+        "field": "orchestrator.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} started a {network.protocol} connection as {user.effective.name} from {source.address}:{source.port} to {destination.address}:{destination.port}",
     "conditions": [
       {
         "field": "event.category",
@@ -463,10 +1181,17 @@
         "field": "event.outcome",
         "value": "success"
       }
+    ],
+    "relationships": [
+      {
+        "source": "source.ip",
+        "target": "destination.ip",
+        "type": "connection"
+      }
     ]
   },
   {
-    "value": "{user.name} ended a {network.protocol} connection as {user.effective.name} from {source.address}:{source.port} to {destination.address}:{destination.port}",
+    "value": "User {user.name} ended a {network.protocol} connection as {user.effective.name} from {source.address}:{source.port} to {destination.address}:{destination.port}",
     "conditions": [
       {
         "field": "event.category",
@@ -508,7 +1233,7 @@
     ]
   },
   {
-    "value": "{user.name} accessed {file.path} as {user.effective.name} through {network.protocol} connection",
+    "value": "User {user.name} accessed {file.path} as {user.effective.name} through {network.protocol} connection",
     "conditions": [
       {
         "field": "event.category",
@@ -539,10 +1264,17 @@
         "field": "event.outcome",
         "value": "success"
       }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.path",
+        "type": "accessed"
+      }
     ]
   },
   {
-    "value": "{user.name} failed to access {file.path} as {user.effective.name} through {network.protocol} connection",
+    "value": "User {user.name} failed to access {file.path} as {user.effective.name} through {network.protocol} connection",
     "conditions": [
       {
         "field": "event.category",
@@ -573,10 +1305,17 @@
         "field": "event.outcome",
         "value": "failure"
       }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.path",
+        "type": "access failed"
+      }
     ]
   },
   {
-    "value": "{user.name} changed {file.path} as {user.effective.name} through {network.protocol} connection",
+    "value": "User {user.name} changed {file.path} as {user.effective.name} through {network.protocol} connection",
     "conditions": [
       {
         "field": "event.category",
@@ -607,10 +1346,17 @@
         "field": "event.outcome",
         "value": "success"
       }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.path",
+        "type": "changed"
+      }
     ]
   },
   {
-    "value": "{user.name} failed to change {file.path} as {user.effective.name} through {network.protocol} connection",
+    "value": "User {user.name} failed to change {file.path} as {user.effective.name} through {network.protocol} connection",
     "conditions": [
       {
         "field": "event.category",
@@ -641,10 +1387,17 @@
         "field": "event.outcome",
         "value": "failure"
       }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.path",
+        "type": "change failed"
+      }
     ]
   },
   {
-    "value": "{user.name} removed {file.path} as {user.effective.name} through {network.protocol} connection",
+    "value": "User {user.name} removed {file.path} as {user.effective.name} through {network.protocol} connection",
     "conditions": [
       {
         "field": "event.category",
@@ -675,10 +1428,17 @@
         "field": "event.outcome",
         "value": "success"
       }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.path",
+        "type": "removed"
+      }
     ]
   },
   {
-    "value": "{user.name} failed to remove {file.path} as {user.effective.name} through {network.protocol} connection",
+    "value": "User {user.name} failed to remove {file.path} as {user.effective.name} through {network.protocol} connection",
     "conditions": [
       {
         "field": "event.category",
@@ -708,6 +1468,13 @@
       {
         "field": "event.outcome",
         "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.path",
+        "type": "failed removal"
       }
     ]
   },
@@ -743,7 +1510,7 @@
     ]
   },
   {
-    "value": "{user.name} started session {teleport.session.id} on {teleport.cluster.name}",
+    "value": "User {user.name} started session {teleport.session.id} on {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
@@ -760,12 +1527,12 @@
       {
         "source": "user.name",
         "target": "teleport.cluster.name",
-        "type": "joined session on"
+        "type": "started session on"
       }
     ]
   },
   {
-    "value": "{user.name} ended session {teleport.session.id} on {teleport.cluster.name}",
+    "value": "User {user.name} ended session {teleport.session.id} on {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
@@ -782,12 +1549,12 @@
       {
         "source": "user.name",
         "target": "teleport.cluster.name",
-        "type": "joined session on"
+        "type": "ended session on"
       }
     ]
   },
   {
-    "value": "{user.name} joined session {teleport.session.id} on {teleport.cluster.name}",
+    "value": "User {user.name} joined session {teleport.session.id} on {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
@@ -809,7 +1576,7 @@
     ]
   },
   {
-    "value": "{user.name} left session {teleport.session.id} on {teleport.cluster.name}",
+    "value": "User {user.name} left session {teleport.session.id} on {teleport.cluster.name}",
     "conditions": [
       {
         "field": "event.action",
@@ -820,6 +1587,13 @@
       },
       {
         "field": "teleport.cluster.name"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "teleport.cluster.name",
+        "type": "left session on"
       }
     ]
   },
@@ -857,10 +1631,17 @@
       {
         "field": "url.original"
       }
+    ],
+    "relationships": [
+      {
+        "source": "teleport.session.id",
+        "target": "url.original",
+        "type": "has been uploaded to"
+      }
     ]
   },
   {
-    "value": "{user.name} created Teleport user {user.target.name} [{event.outcome}]",
+    "value": "User {user.name} created Teleport user {user.target.name} [{event.outcome}]",
     "conditions": [
       {
         "field": "event.action",
@@ -874,38 +1655,43 @@
       {
         "source": "user.name",
         "target": "user.target.name",
-        "type": "created user"
+        "type": "created"
       }
     ]
   },
   {
-    "value": "User {user.name} performed the following database action : {event.action}",
+    "value": "User {user.name} requested kube path {url.path} on {orchestrator.cluster.name} using {http.request.method} - status code : {http.response.status_code} ",
     "conditions": [
       {
-        "field": "event.category",
-        "value": "database"
-      },
-      {
-        "field": "event.action"
+        "field": "event.action",
+        "value": "kube.request"
       },
       {
         "field": "user.name"
       },
       {
-        "field": "event.outcome",
-        "value": "success"
+        "field": "url.path"
+      },
+      {
+        "field": "orchestrator.cluster.name"
+      },
+      {
+        "field": "http.request.method"
+      },
+      {
+        "field": "http.response.status_code"
       }
     ],
     "relationships": [
       {
         "source": "user.name",
-        "target": "teleport.cluster.name",
-        "type": "event.action"
+        "target": "url.path",
+        "type": "requested"
       }
     ]
   },
   {
-    "value": "{user.name} requested kube path {url.path} using {http.request.method} - status code : {http.response.status_code} ",
+    "value": "User {user.name} requested kube path {url.path} using {http.request.method} - status code : {http.response.status_code} ",
     "conditions": [
       {
         "field": "event.action",
@@ -922,6 +1708,141 @@
       },
       {
         "field": "http.response.status_code"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "url.path",
+        "type": "requested"
+      }
+    ]
+  },
+  {
+    "value": "Teleport agent installed on the EC2 instance {cloud.target.instance.id} for the cluster {teleport.cluster.name} via AWS SSM", 
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "ssm.run"
+      },
+      {
+        "field": "teleport.ssm.command.id"
+      },
+      {
+        "field": "cloud.target.instance.id"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "teleport.ssm.command.id",
+        "target": "cloud.target.instance.id",
+        "type": "teleport agent installed on"
+      }
+    ]
+  },
+  {
+    "value": "Teleport agent installation failed on the EC2 instance {cloud.target.instance.id} for the cluster {teleport.cluster.name} via AWS SSM",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "ssm.run"
+      },
+      {
+        "field": "teleport.ssm.command.id"
+      },
+      {
+        "field": "cloud.target.instance.id"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "teleport.ssm.command.id",
+        "target": "cloud.target.instance.id",
+        "type": "teleport agent installation failed on"
+      }
+    ]
+  },
+  {
+    "value": "Teleport agent installation failed",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "ssm.run"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ]
+  },
+  {
+    "value": "Teleport agent installation failed",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "ssm.run"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} created a new certificate on {teleport.cluster.name} from {source.ip}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "cert.create"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "source.ip"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      }
+    ]
+  },
+  {
+    "value": "User {user.name} failed to create a new certificate on {teleport.cluster.name} from {source.ip}",
+    "conditions": [
+      {
+        "field": "event.action",
+        "value": "cert.create"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "source.ip"
+      },
+      {
+        "field": "teleport.cluster.name"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
       }
     ]
   },

@@ -22,10 +22,17 @@
       ]
     },
     "@timestamp": "2026-04-27T19:31:15.285000Z",
+    "network": {
+      "direction": "inbound"
+    },
     "observer": {
+      "hostname": "teleport.example.com",
       "type": "iam"
     },
     "related": {
+      "hosts": [
+        "teleport.example.com"
+      ],
       "ip": [
         "10.0.0.10"
       ],
