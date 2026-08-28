@@ -38,6 +38,9 @@
           "operation": "UPLOAD",
           "protocol": "AUDIT_PROTO_WEBACCESS",
           "result": 0
+        },
+        "resource": {
+          "name": "AAAAAAAA"
         }
       }
     },

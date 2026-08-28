@@ -18,17 +18,29 @@ pipeline:
       properties:
         input_field: '{{original.message}}'
         output_field: message
-        pattern: (%{ACTION_MESSAGES1}|%{ACTION_MESSAGES2}|%{ACTION_MESSAGES3})
+        pattern: (%{ACTION_MESSAGES1}|%{ACTION_MESSAGES2}|%{ACTION_MESSAGES3}|%{ACTION_MESSAGES4}|%{ACTION_MESSAGES5}|%{ACTION_MESSAGES6}|%{ACTION_MESSAGES7})
         custom_patterns:
-          ACTION: (Updated|Antivirus scan skipped|has gone offline|Snapshot completed)
+          ACTION: (Updated|has gone offline|completed|skipped|started|stopped|updated|has detected|has been detected|is starting up|is having trouble|is failing|cannot communicate)
           ACTION_MESSAGES1: >-
-            (The )?%{ACTION:event_type} for (volume
+            (The )?%{DATA:action_subject} %{ACTION:action_status} for (volume
             (?<volume_name>[^:]+), version %{INT:version}|volume
-            (?<volume_name>[^:]+)|(?<resource>[^:]+))(: %{GREEDYDATA:reason}|\.)
+            (?<volume_name>[^:]+)|(?<resource>[^:]+))(:
+            %{GREEDYDATA:reason}|\.|$)
           ACTION_MESSAGES2: >-
+            (The )?%{DATA:action_subject} for (volume
+            (?<volume_name>[^:]+), version %{INT:version}|volume
+            (?<volume_name>[^:]+)|(?<resource>[^:]+)) %{ACTION:action_status}%{GREEDYDATA}
+          ACTION_MESSAGES3: >-
             %{ACTION:event_type} the (?<resource>[^:]+)(:
             %{GREEDYDATA:reason}|\.)
-          ACTION_MESSAGES3: Filer named (?<filer>[^:]+) %{ACTION:event_type}%{GREEDYDATA}
+          ACTION_MESSAGES4: >-
+            (The )?%{DATA:action_subject} named (?<filer>[^:]+) %{ACTION:action_status}%{GREEDYDATA}
+          ACTION_MESSAGES5: >-
+            (The )?%{DATA:action_subject} %{ACTION:action_status}\.%{GREEDYDATA}
+          ACTION_MESSAGES6: >-
+            (The )?%{DATA:action_subject} %{ACTION:action_status}[^\.]+\.%{GREEDYDATA}
+          ACTION_MESSAGES7: >-
+            %{DATA:action_subject} %{ACTION:action_status} to %{GREEDYDATA}
   - name: parsed_date
     external:
       name: date.parse
@@ -75,6 +87,9 @@ stages:
           event.action: '{{parsed_event.message.event_type.replace("AUDIT_","")}}'
           event.reason: '{{parsed_event.message.reason}}'
           event.sequence: '{{parsed_event.message.sequence}}'
+      - set:
+          event.action: '{{parsed_event.message.action_subject}} {{parsed_event.message.action_status}}'
+        filter: '{{parsed_event.message.action_subject is defined or parsed_event.message.action_status is defined}}'
       - set:
           event.severity: '{{original.log.syslog.severity.code}}'
       - set:

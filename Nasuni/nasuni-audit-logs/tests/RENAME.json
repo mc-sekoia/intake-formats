@@ -70,6 +70,9 @@
         "request": {
           "protocol": "AUDIT_PROTO_CIFS",
           "result": 0
+        },
+        "resource": {
+          "name": "UE1674"
         }
       }
     },

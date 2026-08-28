@@ -110,6 +110,128 @@
     ]
   },
   {
+    "value": "Extended attributes has been modified for file {file.name} by {user.name}",
+    "conditions": [
+      {
+        "field": "file.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "SETXATTR"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      },
+      {
+        "field": "event.category",
+        "value": "file"
+      },
+      {
+        "field": "event.type",
+        "value": "change"
+      },
+      {
+        "field": "file.type",
+        "value": "file"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.name",
+        "type": "modification"
+      }
+    ]
+  },
+  {
+    "value": "Extended attributes modification {event.outcome} for file {file.name} by {user.name}",
+    "conditions": [
+      {
+        "field": "file.name"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "SETXATTR"
+      },
+      {
+        "field": "event.outcome",
+        "value": "failure"
+      },
+      {
+        "field": "event.category",
+        "value": "file"
+      },
+      {
+        "field": "event.type",
+        "value": "change"
+      },
+      {
+        "field": "file.type",
+        "value": "file"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "user.name",
+        "target": "file.name",
+        "type": "failed_modification"
+      }
+    ]
+  },
+  {
+    "value": "Extended attributes has been modified for file {file.name} by {user.name} from {source.ip}",
+    "conditions": [
+      {
+        "field": "file.name"
+      },
+      {
+        "field": "source.ip"
+      },
+      {
+        "field": "user.name"
+      },
+      {
+        "field": "event.action",
+        "value": "SETXATTR"
+      },
+      {
+        "field": "event.outcome",
+        "value": "success"
+      },
+      {
+        "field": "event.category",
+        "value": "file"
+      },
+      {
+        "field": "event.type",
+        "value": "change"
+      },
+      {
+        "field": "file.type",
+        "value": "file"
+      }
+    ],
+    "relationships": [
+      {
+        "source": "source.ip",
+        "target": "user.name",
+        "type": "connection_from"
+      },
+      {
+        "source": "user.name",
+        "target": "file.name",
+        "type": "modification"
+      }
+    ]
+  },
+  {
     "value": "File {file.name} has been modified by {user.name}",
     "conditions": [
       {
@@ -2918,6 +3040,14 @@
     "value": "Volume {volume.name} : {event.action}",
     "conditions": [
       {
+        "field": "event.category",
+        "value": "host"
+      },
+      {
+        "field": "event.type",
+        "value": "info"
+      },
+      {
         "field": "event.action"
       },
       {
@@ -2928,6 +3058,14 @@
   {
     "value": "Volume {volume.id} : {event.action}",
     "conditions": [
+      {
+        "field": "event.category",
+        "value": "host"
+      },
+      {
+        "field": "event.type",
+        "value": "info"
+      },
       {
         "field": "event.action"
       },
@@ -2957,6 +3095,22 @@
       },
       {
         "field": "nasuni.audit.request.protocol"
+      }
+    ]
+  },
+  {
+    "value": "System information : {event.action}",
+    "conditions": [
+      {
+        "field": "event.category",
+        "value": "host"
+      },
+      {
+        "field": "event.type",
+        "value": "info"
+      },
+      {
+        "field": "event.action"
       }
     ]
   },
