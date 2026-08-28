@@ -21,6 +21,11 @@ nasuni.audit.file.shared_link_key:
   name: nasuni.audit.file.shared_link_key
   type: keyword
 
+nasuni.audit.file.owner.id:
+  description: The uid of the file's owner.
+  name: nasuni.audit.file.owner.id
+  type: keyword
+
 nasuni.audit.file.changes.owner.id:
   description: The uid that the file has been chowned to.
   name: nasuni.audit.file.changes.owner.id
@@ -55,6 +60,11 @@ nasuni.audit.resource.name:
   description: Name of the share or export that the client used
   name: nasuni.audit.resource.name
   type: keyword
+
+nasuni.audit.detection.infected_files.count:
+  description: Number of infected files detected 
+  name: nasuni.audit.detection.infected_files.count
+  type: long
 
 volume.id:
   description: The volume ID (UID) or Globally Unique Identifier (GUID).

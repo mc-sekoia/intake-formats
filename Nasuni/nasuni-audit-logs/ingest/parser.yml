@@ -18,29 +18,31 @@ pipeline:
       properties:
         input_field: '{{original.message}}'
         output_field: message
-        pattern: (%{ACTION_MESSAGES1}|%{ACTION_MESSAGES2}|%{ACTION_MESSAGES3}|%{ACTION_MESSAGES4}|%{ACTION_MESSAGES5}|%{ACTION_MESSAGES6}|%{ACTION_MESSAGES7})
+        pattern: (%{ACTION_INFECTED_FILES1}|%{ACTION_MESSAGES1}|%{ACTION_MESSAGES2}|%{ACTION_MESSAGES3}|%{ACTION_MESSAGES4}|%{ACTION_MESSAGES5}|%{ACTION_MESSAGES6}|%{ACTION_MESSAGES7})
         custom_patterns:
           ACTION: (Updated|has gone offline|completed|skipped|started|stopped|updated|has detected|has been detected|is starting up|is having trouble|is failing|cannot communicate)
+          ACTION_INFECTED_FILES1: >-
+            (The )?%{DATA:action_subject} %{ACTION:action_name} %{INT:infected_files} %{DATA:action_qualifier} on volume (?<volume_name>[^\.]+)\.%{GREEDYDATA}
           ACTION_MESSAGES1: >-
-            (The )?%{DATA:action_subject} %{ACTION:action_status} for (volume
-            (?<volume_name>[^:]+), version %{INT:version}|volume
+            (The )?%{DATA:action_subject} %{ACTION:action_name} for (volume
+            (?<volume_name>[^:]+),? version %{INT:version}|volume
             (?<volume_name>[^:]+)|(?<resource>[^:]+))(:
             %{GREEDYDATA:reason}|\.|$)
           ACTION_MESSAGES2: >-
             (The )?%{DATA:action_subject} for (volume
-            (?<volume_name>[^:]+), version %{INT:version}|volume
-            (?<volume_name>[^:]+)|(?<resource>[^:]+)) %{ACTION:action_status}%{GREEDYDATA}
+            (?<volume_name>[^:]+),? version %{INT:version}|volume
+            (?<volume_name>[^:]+)|(?<resource>[^:]+)) %{ACTION:action_name}%{GREEDYDATA}
           ACTION_MESSAGES3: >-
             %{ACTION:event_type} the (?<resource>[^:]+)(:
             %{GREEDYDATA:reason}|\.)
           ACTION_MESSAGES4: >-
-            (The )?%{DATA:action_subject} named (?<filer>[^:]+) %{ACTION:action_status}%{GREEDYDATA}
+            (The )?%{DATA:action_subject} named (?<filer>[^:]+) %{ACTION:action_name}%{GREEDYDATA}
           ACTION_MESSAGES5: >-
-            (The )?%{DATA:action_subject} %{ACTION:action_status}\.%{GREEDYDATA}
+            (The )?%{DATA:action_subject} %{ACTION:action_name}\.%{GREEDYDATA}
           ACTION_MESSAGES6: >-
-            (The )?%{DATA:action_subject} %{ACTION:action_status}[^\.]+\.%{GREEDYDATA}
+            (The )?%{DATA:action_subject} %{ACTION:action_name}[^\.]+\.%{GREEDYDATA}
           ACTION_MESSAGES7: >-
-            %{DATA:action_subject} %{ACTION:action_status} to %{GREEDYDATA}
+            %{DATA:action_subject} %{ACTION:action_name} to %{GREEDYDATA}
   - name: parsed_date
     external:
       name: date.parse
@@ -88,8 +90,12 @@ stages:
           event.reason: '{{parsed_event.message.reason}}'
           event.sequence: '{{parsed_event.message.sequence}}'
       - set:
-          event.action: '{{parsed_event.message.action_subject}} {{parsed_event.message.action_status}}'
-        filter: '{{parsed_event.message.action_subject is defined or parsed_event.message.action_status is defined}}'
+          event.action: '{{parsed_event.message.action_subject}} {{parsed_event.message.action_name}}'
+        filter: '{{(parsed_event.message.action_subject is defined and parsed_event.message.action_subject != None) and (parsed_event.message.action_name is defined and parsed_event.message.action_name != None)}}'
+      - set:
+          event.action: '{{parsed_event.message.action_subject}} {{parsed_event.message.action_name}} {{parsed_event.message.action_qualifier}}'
+        filter: '{{(parsed_event.message.action_subject is defined and parsed_event.message.action_subject != None) and (parsed_event.message.action_name is defined and parsed_event.message.action_name != None) and (parsed_event.message.action_qualifier is defined and parsed_event.message.action_qualifier != None)}}'
+
       - set:
           event.severity: '{{original.log.syslog.severity.code}}'
       - set:
@@ -178,6 +184,8 @@ stages:
           nasuni.audit.request.result: '{{parsed_event.message.result}}'
       - set:
           nasuni.audit.resource.name: '{{parsed_event.message.resource}}'
+      - set:
+          nasuni.audit.detection.infected_files.count: '{{parsed_event.message.infected_files}}'
   ecs_kind_categorization:
     actions:
       - set:
