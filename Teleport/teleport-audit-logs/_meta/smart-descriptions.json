@@ -85,7 +85,7 @@
       {
         "source": "user.name",
         "target": "teleport.cluster.name",
-        "type": "logged in"
+        "type": "logged out"
       }
     ]
   },
@@ -115,7 +115,7 @@
       {
         "source": "user.name",
         "target": "teleport.cluster.name",
-        "type": "login failed"
+        "type": "logout failed"
       }
     ]
   },
@@ -140,8 +140,8 @@
     "relationships": [
       {
         "source": "user.name",
-        "target": "teleport.cluster.name",
-        "type": "executed command on"
+        "target": "process.command_line",
+        "type": "executed"
       }
     ]
   },
@@ -166,8 +166,8 @@
     "relationships": [
       {
         "source": "user.name",
-        "target": "teleport.cluster.name",
-        "type": "failed to execute command on"
+        "target": "process.command_line",
+        "type": "failed to execute command"
       }
     ]
   },
@@ -391,6 +391,9 @@
         "field": "user.name"
       },
       {
+        "field": "teleport.cluster.name"
+      },
+      {
         "field": "event.action",
         "value": "mfa.add"
       },
@@ -416,6 +419,9 @@
       },
       {
         "field": "user.name"
+      },
+      {
+        "field": "teleport.cluster.name"
       },
       {
         "field": "event.action",
@@ -445,6 +451,9 @@
         "field": "user.name"
       },
       {
+        "field": "teleport.cluster.name"
+      },
+      {
         "field": "event.action",
         "value": "mfa.delete"
       },
@@ -470,6 +479,9 @@
       },
       {
         "field": "user.name"
+      },
+      {
+        "field": "teleport.cluster.name"
       },
       {
         "field": "event.action",
